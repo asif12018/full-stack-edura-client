@@ -1,0 +1,26 @@
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "./useAxiosPublic";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
+
+
+
+
+const useUser = () => {
+
+    const axiosPublic = useAxiosPublic()
+    //data from context api
+    const {user} = useContext(AuthContext)
+    const {data, isLoading} = useQuery({
+        queryKey:[user?.email,'user'],
+        queryFn: async()=>{
+            const res = await axiosPublic.get(`/user/${user.email}`)
+            // console.log(res.data)
+            return res.data
+        },
+        enabled: !!user?.email
+    })
+    return [data, isLoading]
+};
+
+export default useUser;

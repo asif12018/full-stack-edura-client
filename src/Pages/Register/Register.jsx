@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-
+import useAxisoSecure from "../../Hooks/useAxiosSecure.jsx";
+import useAxiosPublic from './../../Hooks/useAxiosPublic';
+import Swal from "sweetalert2";
 
 const Register = () => {
+    //axios secure hook
+    const axiosPublic = useAxiosPublic()
     const {setUser, userCreate, updateUser, userSignIn, googleSignIn} = useContext(AuthContext)
     
     const {
@@ -16,9 +20,12 @@ const Register = () => {
         formState: { errors },
     } = useForm();
     
-    const password = watch('password'); // Watch the password field
+   
 
+    const password = watch('password'); // Watch the password field
+    
     const onSubmit = (data) => {
+        
         console.log(data);
         //creating a new user
         userCreate(data.email, data.password)
@@ -38,6 +45,29 @@ const Register = () => {
                     const user = userCredential.user;
                     setUser(user)
                     // ...
+                    //sending user info to the data base
+                    const userInfo = {
+                        name: data.fullName,
+                        email: data.email,
+                        role:'student'
+                    }
+                    
+                    axiosPublic.post('/user', userInfo)
+                    .then(res=>{
+                        console.log(res.data)
+                        if(res.data.insertedId){
+                            Swal.fire({
+                                position: "middle-middle",
+                                icon: "success",
+                                title: "Registration successful",
+                                showConfirmButton: false,
+                                timer: 1500
+                              });
+                        }
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                    
                   })
                   .catch((error) => {
                     const errorCode = error.code;
@@ -64,6 +94,24 @@ const Register = () => {
             
             const user = result.user;
             setUser(user)
+            //sending user data to the database
+            const userInfo = {name:user.displayName,email:user.email ,
+                role:'student'}
+            axiosPublic.post('/user',userInfo)
+            .then(res=>{
+                console.log(res.data)
+               
+                    Swal.fire({
+                        position: "middle-middle",
+                        icon: "success",
+                        title: "Registration successful",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+               
+            }).catch(err=>{
+                console.log(err)
+            })
           }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;

@@ -39,14 +39,24 @@ const NavbarSection = () => {
                     <Navbar.Link >
                         Teach on
                     </Navbar.Link>
+
                     <Navbar.Link >
                         <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/contact'}>Contact</NavLink>
                     </Navbar.Link>
-                    <Navbar.Link >
+
+
+                    {
+                        user?.email ? '' : <Navbar.Link >
                         <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/register'}>Register</NavLink>
                     </Navbar.Link>
-                    <Navbar.Link >
+                    }
+                    {
+                        user?.email ? '' : <Navbar.Link >
                         <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/login'}>Login</NavLink>
+                    </Navbar.Link>
+                    }
+                    <Navbar.Link>
+                    <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/joinEdura'}>Teach on Edura</NavLink>
                     </Navbar.Link>
                     <Navbar.Link >
                         {
