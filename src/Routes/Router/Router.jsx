@@ -5,8 +5,15 @@ import Contact from "../../Pages/Contact/Contact";
 import Register from "../../Pages/Register/Register";
 import Login from "../../Pages/Login/Login";
 import TeachOnEdura from './../../Pages/TeachOnEdura/TeachOnEdura';
-
-
+import Dashboard from "../../Pages/Dashboard/Dashboard";
+import MyEnrollCourses from './../../components/MyEnrollCourses/MyEnrollCourses';
+import StudentProfile from './../../components/StudentProfile/StudentProfile';
+import TeacherRequest from './../../components/TeacherRequest/TeacherRequest';
+import AllUsers from '../../components/AllUsers/AllUsers.jsx'
+import AllCourses from "../../components/AllCourses/AllCourses.jsx";
+import AddCourse from './../../components/AddCourse/AddCourse';
+import MyCourses from '../../components/MyCourses/MyCourses.jsx'
+import Profile from './../../components/Profile/Profile';
 
 const router = createBrowserRouter([
     {
@@ -35,6 +42,45 @@ const router = createBrowserRouter([
         }
       ]
     },
+    {
+      path:"dashboard",
+      element:<Dashboard></Dashboard>,
+      children:[
+        {
+          path:'myEnroll',
+          element:<MyEnrollCourses></MyEnrollCourses>
+        },
+        {
+          path:'studentProfile',
+          element:<StudentProfile></StudentProfile>
+        },
+        {
+          path:'teacherRequest',
+          element:<TeacherRequest></TeacherRequest>
+        },
+        {
+          path:'allUsers',
+          element:<AllUsers></AllUsers>
+        },
+        {
+          path:'allCourses',
+          element:<AllCourses></AllCourses>
+        },
+        
+        {
+          path:'addCourse',
+          element:<AddCourse></AddCourse>
+        },
+        {
+          path:'myCourses',
+          element:<MyCourses></MyCourses>
+        },
+        {
+          path:'Profile',
+          element:<Profile></Profile>
+        },
+      ]
+    }
   ]);
 
 
