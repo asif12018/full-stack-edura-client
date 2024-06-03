@@ -5,7 +5,10 @@ import { Button } from "flowbite-react";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 const Login = () => {
+    const {setUser , userSignIn, googleSignIn} = useContext(AuthContext)
     const {
         register,
         handleSubmit,
@@ -13,7 +16,36 @@ const Login = () => {
       } = useForm()
       const onSubmit = (data) =>{
         console.log(data)
+        userSignIn(data.email, data.password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            setUser(user)
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorMessage)
+          });
+
       }
+
+       //google signin function
+    const handleGoogleSignIn = () =>{
+        googleSignIn()
+        .then((result) => {
+            
+            const user = result.user;
+            setUser(user)
+          }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorMessage)
+            // ...
+          });
+    }
     return (
         <div>
             <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col bg-red-400">
@@ -53,7 +85,7 @@ const Login = () => {
                             className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1"
                             gradientMonochrome="success">Create Account</Button>
 
-                        <Button className="w-full bg-none" outline gradientDuoTone="greenToBlue">
+                        <Button onClick={handleGoogleSignIn} className="w-full bg-none" outline gradientDuoTone="greenToBlue">
                             <span className="py-2 flex gap-1 justify-center items-center "><FaGoogle></FaGoogle> Continue with google</span>
                         </Button>
 

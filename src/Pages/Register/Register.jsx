@@ -2,8 +2,13 @@ import { Button } from "flowbite-react";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
+
 
 const Register = () => {
+    const {setUser, userCreate, updateUser, userSignIn, googleSignIn} = useContext(AuthContext)
+    
     const {
         register,
         handleSubmit,
@@ -15,7 +20,58 @@ const Register = () => {
 
     const onSubmit = (data) => {
         console.log(data);
+        //creating a new user
+        userCreate(data.email, data.password)
+        .then((userCredential) => {
+            // Signed up 
+            const user = userCredential.user;
+            console.log(user)
+            //adding name and profile pic
+            updateUser(data.fullName, data.photo)
+            .then(()=>{
+                console.log('photo and name added')
+                setUser(user)
+                //after updating the user login the user automatically
+                userSignIn(data.email, data.password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    setUser(user)
+                    // ...
+                  })
+                  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.log(errorMessage)
+                  });
+            }).catch((err)=>{
+                console.log(err)
+            })
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+          });
+
     };
+
+    //google signin function
+    const handleGoogleSignIn = () =>{
+        googleSignIn()
+        .then((result) => {
+            
+            const user = result.user;
+            setUser(user)
+          }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorMessage)
+            // ...
+          });
+    }
 
     return (
         <div>
@@ -84,7 +140,7 @@ const Register = () => {
                             Create Account
                         </Button>
                         
-                        <Button className="w-full bg-none" outline gradientDuoTone="greenToBlue">
+                        <Button onClick={handleGoogleSignIn} className="w-full bg-none" outline gradientDuoTone="greenToBlue">
                             <span className="py-2 flex gap-1 justify-center items-center"><FaGoogle /> Continue with Google</span>
                         </Button>
                         
