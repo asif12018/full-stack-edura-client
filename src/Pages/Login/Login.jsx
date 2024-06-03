@@ -4,12 +4,21 @@
 import { Button } from "flowbite-react";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form"
 const Login = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm()
+      const onSubmit = (data) =>{
+        console.log(data)
+      }
     return (
         <div>
             <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col bg-red-400">
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                    <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                    <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                         <h1 className="mb-8 text-3xl text-center">Sign In</h1>
                         {/* <input
                             type="text"
@@ -21,13 +30,18 @@ const Login = () => {
                             type="text"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="email"
-                            placeholder="Email" />
+                            placeholder="Email" 
+                            {...register('email',{required:true})}
+                            />
+                            {errors.email && <p role="alert" className="text-red-500 font-bold ">You must input email</p>}
 
                         <input
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
-                            placeholder="Password" />
+                            placeholder="Password" {...register('password',{required:true, pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/})} />
+                             {errors.password?.type == 'required' && <p role="alert" className="text-red-500 font-bold ">You must input password</p>}
+                             {errors.password?.type == 'pattern' && <p role="alert" className="text-red-500 font-bold ">Your password must be 8 character long and must to have a UpperCase letter</p>}
                         {/* <input
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -52,7 +66,7 @@ const Login = () => {
                                 Privacy Policy
                             </a>
                         </div>
-                    </div>
+                    </form>
 
                     <div className="text-white mt-6">
                         Don't have an account?

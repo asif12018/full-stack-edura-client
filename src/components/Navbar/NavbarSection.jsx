@@ -29,6 +29,9 @@ const NavbarSection = () => {
                         <NavLink  className={({isActive})=> isActive ? 'text-white font-bold': ''} to={'/register'}>Register</NavLink>
                     </Navbar.Link>
                     <Navbar.Link >
+                        <NavLink  className={({isActive})=> isActive ? 'text-white font-bold': ''} to={'/login'}>Login</NavLink>
+                    </Navbar.Link>
+                    <Navbar.Link >
                         User
                     </Navbar.Link>
                     
