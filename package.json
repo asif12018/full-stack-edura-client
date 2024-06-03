@@ -15,6 +15,7 @@
     "firebase": "^10.12.2",
     "flowbite-react": "^0.9.0",
     "localforage": "^1.10.0",
+    "lottie-react": "^2.4.0",
     "match-sorter": "^6.3.4",
     "particles-bg": "^2.5.5",
     "react": "^18.2.0",
@@ -22,6 +23,7 @@
     "react-hook-form": "^7.51.5",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.1",
+    "react-spinners": "^0.13.8",
     "sort-by": "^1.2.0",
     "sweetalert2": "^11.11.0"
   },
