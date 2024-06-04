@@ -1,0 +1,17 @@
+.react-autocomplete-input-container {
+    position: relative;
+    z-index: 10; /* Ensure this is higher than other elements */
+  }
+  
+  .react-autocomplete-items-container {
+    position: absolute;
+    z-index: 10; /* Ensure this is higher than other elements */
+    background-color: white; /* Ensure suggestions have a background */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  body{
+    background-color:#14452f ;
+  }
