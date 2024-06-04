@@ -82,6 +82,10 @@ const router = createBrowserRouter([
         {
           path:'addCourse',
           element:<AddCourse></AddCourse>
+        },
+        {
+          path:'allCourse',
+          element:<AllCourses></AllCourses>
         }
       ]
     }

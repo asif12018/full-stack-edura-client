@@ -12,7 +12,7 @@ const AddCourse = () => {
     //data from context api
     const { user } = useContext(AuthContext);
     //axios secure hook
-    const axiosPublic = useAxiosPublic()
+    const axiosPublic = useAxiosPublic();
 
 
     const {
