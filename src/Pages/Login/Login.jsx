@@ -7,7 +7,10 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const Login = () => {
+    const axiosPublic = useAxiosPublic()
     const {setUser , userSignIn, googleSignIn} = useContext(AuthContext)
     const {
         register,
@@ -21,6 +24,14 @@ const Login = () => {
             // Signed in 
             const user = userCredential.user;
             setUser(user)
+
+            Swal.fire({
+                position: "middle-middle",
+                icon: "success",
+                title: "Registration successful",
+                showConfirmButton: false,
+                timer: 1500
+              });
             // ...
           })
           .catch((error) => {
@@ -31,13 +42,31 @@ const Login = () => {
 
       }
 
-       //google signin function
+    //google signin function
     const handleGoogleSignIn = () =>{
         googleSignIn()
         .then((result) => {
             
             const user = result.user;
             setUser(user)
+            //sending user data to the database
+            const userInfo = {name:user.displayName,email:user.email ,
+                role:'student'}
+            axiosPublic.post('/user',userInfo)
+            .then(res=>{
+                console.log(res.data)
+               
+                    Swal.fire({
+                        position: "middle-middle",
+                        icon: "success",
+                        title: "Registration successful",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+               
+            }).catch(err=>{
+                console.log(err)
+            })
           }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;

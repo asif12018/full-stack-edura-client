@@ -12,6 +12,7 @@ import useTeacher from "../../Hooks/useTeacher.jsx";
 import { BounceLoader } from "react-spinners";
 import clock from '../../assets/Animation - 1716706625927.json'
 import Lottie from "lottie-react";
+import approve from '../../assets/approved.json'
 
 const TeachOnEdura = () => {
     //custom user hook
@@ -81,6 +82,21 @@ const TeachOnEdura = () => {
 
 
     };
+
+    //request to review
+    const handleRequest = (email) =>{
+        axiosSecure.patch(`/teacher/review/${email}`)
+        .then(res =>{
+            
+            if(res.data.modifiedCount>0){
+                console.log(res.data)
+                reloadTeacher();
+                reloadUser();
+            }
+        }).catch(err =>{
+            console.log(err)
+        })
+    }
 
 
 
@@ -196,8 +212,27 @@ const TeachOnEdura = () => {
                         <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
                             <h2 className="mb-8 text-3xl text-center">Hey! your almost there.🖐️🖐️🖐️</h2>
                             <Lottie animationData={clock} />
-                            <p>we are verify your request. we will let you know shortly</p>
-                            <button>Pending</button>
+                            <p>{teacher?.isApproved == 'reject'? 'we are sorry to say you are rejected. you  submit a review maybe we can change our decision' : 'we are verify your request. we will let you know shortly'}</p>
+                            <div>{teacher?.isApproved == 'reject' ? <Button onClick={()=>handleRequest(teacher.email)} color="warning">request a review</Button>: <Button color="success">pending</Button>}</div>
+                        </form>
+    
+    
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if(userInfo?.role == 'teacher' && teacher?.isApproved == 'yes'){
+        return (
+            <div>
+                <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col ">
+                    <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                        <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+                            <h2 className="mb-8 text-3xl text-center">Hey! congratulation to be coming our teacher🖐️🖐️🖐️</h2>
+                            <Lottie animationData={approve} />
+                            <p>go to you dashboard and start teaching</p>
+                            <button>Approved</button>
                         </form>
     
     

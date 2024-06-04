@@ -3,10 +3,11 @@ import useUser from "../../Hooks/useUser";
 import { BounceLoader } from "react-spinners";
 
 const Dashboard = () => {
-    const { userData, isLoading, reloadUser } = useUser();
+    const [userInfo, isLoading, reloadUser] = useUser();
     if (isLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
+    // console.log(userInfo)
     return (
         <div className="grid grid-cols-12">
             {/* let bar of the dashboard */}
@@ -16,7 +17,7 @@ const Dashboard = () => {
                     <NavLink to={'myEnroll'} className={'text-left'}>My Enroll Courses</NavLink>
                     <NavLink to={'studentProfile'}>Student Profile</NavLink>
                     {/**====== admin dashboard ======== */}
-                    {(userData?.role === 'admin' || userData?.role === 'teacher') && (
+                    {(userInfo?.role === 'admin' || userInfo?.role === 'teacher') && (
                         <>
                             <NavLink to={'teacherRequest'} className={'text-left'}>Teacher Request</NavLink>
                             <NavLink to={'allUsers'}>Users</NavLink>
@@ -26,12 +27,14 @@ const Dashboard = () => {
                     )}
                     {/**====== teacher ====== */}
                     {
-                        userData?.role == 'admin' && <>
+                        userInfo?.role == 'admin' && <>
                             <NavLink to={'addCourse'}>Add Courses</NavLink>
                             <NavLink to={'myCourses'}>My Courses</NavLink>
-                            <NavLink to={'/'}>Home</NavLink>
+
                         </>
                     }
+
+                    <NavLink to={'/'}>Home</NavLink>
                 </div>
 
 
