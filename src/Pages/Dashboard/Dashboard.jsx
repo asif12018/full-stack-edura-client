@@ -19,7 +19,7 @@ const Dashboard = () => {
                     {/**====== admin dashboard ======== */}
                     {(userInfo?.role === 'admin' || userInfo?.role === 'teacher') && (
                         <>
-                            <NavLink to={'teacherRequest'} className={'text-left'}>Teacher Request</NavLink>
+                            
                             <NavLink to={'allUsers'}>Users</NavLink>
                             <NavLink to={'allCourses'}>All Courses</NavLink>
                             <NavLink to={'Profile'}>Profile</NavLink>
@@ -30,6 +30,7 @@ const Dashboard = () => {
                         userInfo?.role == 'admin' && <>
                             <NavLink to={'addCourse'}>Add Courses</NavLink>
                             <NavLink to={'myCourses'}>My Courses</NavLink>
+                            <NavLink to={'teacherRequest'} className={'text-left'}>Teacher Request</NavLink>
 
                         </>
                     }

@@ -49,7 +49,7 @@ const Register = () => {
                     const userInfo = {
                         name: data.fullName,
                         email: data.email,
-                        role:'student'
+                        role:'student', photo:data.photo
                     }
                     
                     axiosPublic.post('/user', userInfo)
@@ -96,7 +96,7 @@ const Register = () => {
             setUser(user)
             //sending user data to the database
             const userInfo = {name:user.displayName,email:user.email ,
-                role:'student'}
+                role:'student', photo:user.photoURL}
             axiosPublic.post('/user',userInfo)
             .then(res=>{
                 console.log(res.data)

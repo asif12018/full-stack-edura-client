@@ -17,7 +17,7 @@ const TeacherRequest = () => {
     const [isTeacher, setIsTeacher] = useState();
 
     //total users
-    const  [allUserData, isAllUserLoading, isAllUserReLoading]  = useAllUser();
+    const [allUserData, isAllUserLoading, isAllUserReLoading] = useAllUser();
 
     //total teacher
     const axiosSecure = useAxisoSecure();
@@ -40,12 +40,12 @@ const TeacherRequest = () => {
         }
     }, [allTeacher]);
 
-    useEffect(()=>{
-        if(allUserData.length > 0){
+    useEffect(() => {
+        if (allUserData.length > 0) {
             const teacher = allUserData.filter(user => user.role == 'teacher');
             setIsTeacher(teacher)
         }
-    },[allUserData])
+    }, [allUserData])
 
     if (isLoadings || isLoading || isAllUserLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
@@ -53,51 +53,51 @@ const TeacherRequest = () => {
 
     // console.log(userData)
 
-    
+
     // console.log(reject, request, approved)
 
     //approving the course function
-    const handleApprove = (id,email) =>{
+    const handleApprove = (id, email) => {
         console.log(id, email)
         //approving request to the teachers collection
         axiosSecure.patch(`/teacher/${id}`)
-        .then(res =>{
-            
-            if(res.data.modifiedCount>0){
-                console.log(res.data)
-                refetch();
-                isAllUserLoading();
-            }
-        }).catch(err =>{
-            console.log(err)
-        })
+            .then(res => {
+
+                if (res.data.modifiedCount > 0) {
+                    console.log(res.data)
+                    refetch();
+                    isAllUserLoading();
+                }
+            }).catch(err => {
+                console.log(err)
+            })
 
         //making the student teacher
         axiosSecure.patch(`/user/${email}`)
-        .then(res =>{
-            if(res.data.modifiedCount > 0){
-                console.log(res.data)
-            }
-        }).catch(err =>{
-            console.log(err)
-        })
+            .then(res => {
+                if (res.data.modifiedCount > 0) {
+                    console.log(res.data)
+                }
+            }).catch(err => {
+                console.log(err)
+            })
     }
 
     // rejecting the course request
-    const handleReject = (id) =>{
+    const handleReject = (id) => {
         axiosSecure.patch(`/teacher/reject/${id}`)
-        .then(res =>{
-            
-            if(res.data.modifiedCount>0){
-                console.log(res.data)
-                refetch();
-            }
-        }).catch(err =>{
-            console.log(err)
-        })
+            .then(res => {
+
+                if (res.data.modifiedCount > 0) {
+                    console.log(res.data)
+                    refetch();
+                }
+            }).catch(err => {
+                console.log(err)
+            })
     }
 
-    
+
 
 
 
@@ -165,46 +165,46 @@ const TeacherRequest = () => {
 
 
                 <div className="overflow-x-auto">
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Name</Table.HeadCell>
-          <Table.HeadCell>Image</Table.HeadCell>
-          <Table.HeadCell>Experience</Table.HeadCell>
-          <Table.HeadCell>Title</Table.HeadCell>
-          <Table.HeadCell>Category</Table.HeadCell>
-          <Table.HeadCell>Status</Table.HeadCell>
-          <Table.HeadCell>Approve button</Table.HeadCell>
-          <Table.HeadCell>Reject button</Table.HeadCell>
-          
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {
-            allTeacher?.map((teacher, index)=>
-            
-            <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            {/* <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table>
+                        <Table.Head>
+                            <Table.HeadCell>Name</Table.HeadCell>
+                            <Table.HeadCell>Image</Table.HeadCell>
+                            <Table.HeadCell>Experience</Table.HeadCell>
+                            <Table.HeadCell>Title</Table.HeadCell>
+                            <Table.HeadCell>Category</Table.HeadCell>
+                            <Table.HeadCell>Status</Table.HeadCell>
+                            <Table.HeadCell>Approve button</Table.HeadCell>
+                            <Table.HeadCell>Reject button</Table.HeadCell>
+
+                        </Table.Head>
+                        <Table.Body className="divide-y">
+                            {
+                                allTeacher?.map((teacher, index) =>
+
+                                    <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                        {/* <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               {'Apple MacBook Pro 17"'}
             </Table.Cell> */}
-            <Table.Cell>{teacher?.fullName}</Table.Cell>
-            <Table.Cell><div className="flex flex-wrap gap-2">
-      <Avatar img={teacher?.photo} rounded />
-    </div></Table.Cell>
-            <Table.Cell>{teacher?.skill}</Table.Cell>
-            <Table.Cell>{teacher?.title}</Table.Cell>
-            <Table.Cell>{teacher?.category}</Table.Cell>
-            <Table.Cell>pending</Table.Cell>
-            <Table.Cell><Button onClick={()=>handleApprove(teacher?._id,teacher.email)} color="success" disabled={(teacher.isApproved == 'yes' || teacher.isApproved == 'reject')}>{teacher?.isApproved == 'yes' && 'Approved'}{teacher?.isApproved == 'reject' && 'not Approved'}{teacher?.isApproved == 'no' && 'Approve'}</Button></Table.Cell>
-            
-           
-            <Table.Cell>
-            <Button onClick={()=>handleReject(teacher._id)} disabled={(teacher.isApproved == 'reject' || teacher.isApproved == 'yes')} color="failure">Reject</Button>
-            </Table.Cell>
-          </Table.Row>
-            )
-          }
+                                        <Table.Cell>{teacher?.fullName}</Table.Cell>
+                                        <Table.Cell><div className="flex flex-wrap gap-2">
+                                            <Avatar img={teacher?.photo} rounded />
+                                        </div></Table.Cell>
+                                        <Table.Cell>{teacher?.skill}</Table.Cell>
+                                        <Table.Cell>{teacher?.title}</Table.Cell>
+                                        <Table.Cell>{teacher?.category}</Table.Cell>
+                                        <Table.Cell>pending</Table.Cell>
+                                        <Table.Cell><Button onClick={() => handleApprove(teacher?._id, teacher.email)} color="success" disabled={(teacher.isApproved == 'yes' || teacher.isApproved == 'reject')}>{teacher?.isApproved == 'yes' && 'Approved'}{teacher?.isApproved == 'reject' && 'not Approved'}{teacher?.isApproved == 'no' && 'Approve'}</Button></Table.Cell>
 
 
-          {/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                                        <Table.Cell>
+                                            <Button onClick={() => handleReject(teacher._id)} disabled={(teacher.isApproved == 'reject' || teacher.isApproved == 'yes')} color="failure">Reject</Button>
+                                        </Table.Cell>
+                                    </Table.Row>
+                                )
+                            }
+
+
+                            {/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
               Microsoft Surface Pro
             </Table.Cell>
@@ -230,9 +230,9 @@ const TeacherRequest = () => {
               </a>
             </Table.Cell>
           </Table.Row> */}
-        </Table.Body>
-      </Table>
-    </div>
+                        </Table.Body>
+                    </Table>
+                </div>
             </div>
         </div>
     );
