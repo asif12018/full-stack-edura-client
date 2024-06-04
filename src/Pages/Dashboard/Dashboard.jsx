@@ -11,7 +11,7 @@ const Dashboard = () => {
     return (
         <div className="grid grid-cols-12">
             {/* let bar of the dashboard */}
-            <div className="col-span-4 border-2 h-screen bg-[#14452f] text-white">
+            <div className="col-span-4 border-r-[0.5px] border-gray-600 min-h-screen bg-[#14452f] text-white">
                 <div className="flex flex-col items-center  gap-5 mt-8 ">
                     {/*===== student dashboard =======*/}
                     <NavLink to={'myEnroll'} className={'text-left'}>My Enroll Courses</NavLink>
@@ -20,8 +20,7 @@ const Dashboard = () => {
                     {(userInfo?.role === 'admin' || userInfo?.role === 'teacher') && (
                         <>
                             
-                            <NavLink to={'allUsers'}>Users</NavLink>
-                            <NavLink to={'allCourses'}>All Courses</NavLink>
+                            <NavLink to={'addCourse'}>Add Courses</NavLink>
                             <NavLink to={'Profile'}>Profile</NavLink>
                         </>
                     )}
@@ -31,6 +30,8 @@ const Dashboard = () => {
                             <NavLink to={'addCourse'}>Add Courses</NavLink>
                             <NavLink to={'myCourses'}>My Courses</NavLink>
                             <NavLink to={'teacherRequest'} className={'text-left'}>Teacher Request</NavLink>
+                            <NavLink to={'allUsers'}>Users</NavLink>
+                            <NavLink to={'allCourses'}>All Courses</NavLink>
 
                         </>
                     }
@@ -41,7 +42,7 @@ const Dashboard = () => {
 
 
             </div>
-            <div className="col-span-8">
+            <div className="col-span-8 bg-[#14452f]">
                 <Outlet></Outlet>
             </div>
         </div>

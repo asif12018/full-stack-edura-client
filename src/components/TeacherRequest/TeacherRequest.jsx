@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Avatar, Button, Table } from "flowbite-react";
 import useUser from "../../Hooks/useUser";
 import useAllUser from "../../Hooks/useAllUser";
+import useSearchSuggest from "../../Hooks/useSearchSuggest";
 
 
 const TeacherRequest = () => {
@@ -18,6 +19,7 @@ const TeacherRequest = () => {
 
     //total users
     const [allUserData, isAllUserLoading, isAllUserReLoading] = useAllUser();
+    const [allSuggestion, loadingSuggestion] = useSearchSuggest();
 
     //total teacher
     const axiosSecure = useAxisoSecure();
@@ -41,13 +43,13 @@ const TeacherRequest = () => {
     }, [allTeacher]);
 
     useEffect(() => {
-        if (allUserData.length > 0) {
-            const teacher = allUserData.filter(user => user.role == 'teacher');
+        if (allSuggestion.length > 0) {
+            const teacher = allSuggestion.filter(user => user.role == 'teacher');
             setIsTeacher(teacher)
         }
-    }, [allUserData])
+    }, [allSuggestion])
 
-    if (isLoadings || isLoading || isAllUserLoading) {
+    if (isLoadings || isLoading || isAllUserLoading || loadingSuggestion) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
 
@@ -62,7 +64,7 @@ const TeacherRequest = () => {
         //approving request to the teachers collection
         axiosSecure.patch(`/teacher/${id}`)
             .then(res => {
-
+                        
                 if (res.data.modifiedCount > 0) {
                     console.log(res.data)
                     refetch();

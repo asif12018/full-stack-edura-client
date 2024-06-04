@@ -25,10 +25,10 @@ const TeachOnEdura = () => {
     console.log('user info on teach on endura',teacher)
     const axiosSecure = useAxisoSecure()
     //data from context api
-    const { user } = useContext(AuthContext);
+    // const { user } = useContext(AuthContext);
     //axios secure hook
     const axiosPublic = useAxiosPublic()
-    const { setUser, userCreate, updateUser, userSignIn, googleSignIn } = useContext(AuthContext)
+    const { setUser, userCreate, updateUser, userSignIn, googleSignIn, user } = useContext(AuthContext)
 
     const {
         register,

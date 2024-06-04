@@ -79,6 +79,10 @@ const router = createBrowserRouter([
           path:'Profile',
           element:<Profile></Profile>
         },
+        {
+          path:'addCourse',
+          element:<AddCourse></AddCourse>
+        }
       ]
     }
   ]);
