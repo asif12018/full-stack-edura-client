@@ -14,6 +14,7 @@ import AllCourses from "../../components/AllCourses/AllCourses.jsx";
 import AddCourse from './../../components/AddCourse/AddCourse';
 import MyCourses from '../../components/MyCourses/MyCourses.jsx'
 import Profile from './../../components/Profile/Profile';
+import AvailableCourse from "../../Pages/AvailableCourse/AvailableCourse.jsx";
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         {
           path:"/joinEdura",
           element:<TeachOnEdura></TeachOnEdura>
+        },
+        {
+          path:'allAvailableClass',
+          element:<AvailableCourse></AvailableCourse>
         }
       ]
     },
@@ -86,7 +91,8 @@ const router = createBrowserRouter([
         {
           path:'allCourse',
           element:<AllCourses></AllCourses>
-        }
+        },
+        
       ]
     }
   ]);

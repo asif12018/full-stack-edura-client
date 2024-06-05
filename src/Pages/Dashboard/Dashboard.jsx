@@ -32,15 +32,15 @@ const Dashboard = () => {
                             
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'addCourse'}><span className="flex items-center gap-2"><MdAddChart />Add Courses</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'Profile'}><span className="flex items-center gap-2"><RiAdminFill />Profile</span></NavLink>
-                            
+                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'myCourses'}><span className="flex items-center gap-2"><SiGoogleclassroom />My Courses</span></NavLink>
                         </>
                     )}
                     {/**====== teacher ====== */}
                     {
                         userInfo?.role == 'admin' && <>
                             
-                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'myCourses'}><span className="flex items-center gap-2"><SiGoogleclassroom />My Courses</span></NavLink>
-                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'teacherRequest'} className={'text-left'}><span className="flex items-center gap-2"><FaChalkboardTeacher />Teacher Request</span></NavLink>
+                            
+                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'teacherRequest'} ><span className="flex items-center gap-2"><FaChalkboardTeacher />Teacher Request</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'allUsers'}><span className="flex items-center gap-2"><FaUsers />Users</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'allCourses'}><span className="flex gap-2 items-center"><IoBookmarks />All Courses</span></NavLink>
                             

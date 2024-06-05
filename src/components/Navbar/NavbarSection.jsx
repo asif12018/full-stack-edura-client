@@ -34,7 +34,8 @@ const NavbarSection = () => {
                         <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/'}>Home</NavLink>
                     </Navbar.Link>
                     <Navbar.Link >
-                        All Classes
+                        <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/allAvailableClass'}>All Classes</NavLink>
+                        
                     </Navbar.Link>
                   
 

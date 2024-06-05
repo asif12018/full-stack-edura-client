@@ -34,7 +34,8 @@ const AddCourse = () => {
             fullName:data.fullName,
             price:data.price,
             title:data.title,
-            isApproved:'no'
+            isApproved:'no',
+            totalEnroll:'0'
         }
         console.log(course)
         axiosSecure.post('/addCourse',course)

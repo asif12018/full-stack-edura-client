@@ -1,3 +1,4 @@
+import Instructor from "../Instructor/Instructor";
 
 
 const Hero = () => {
@@ -22,7 +23,10 @@ const Hero = () => {
                 </div>
                 
             </section>
-            <div className='hidden md:block w-full md:w-4/5 bg-white py-6  mx-auto md:-translate-y-24 '>
+
+
+
+            <div className='hidden lg:block w-full md:w-4/5 bg-white py-6  mx-auto md:-translate-y-24 shadow-md'>
                 <h3 className='text-center text-4xl font-bold '>Over 6000+ Courses In One Place</h3>
                 <div className='flex flex-col md:flex-row justify-evenly gap-2'>
                     <div className=' flex justify-center items-center px-2'>
@@ -39,6 +43,9 @@ const Hero = () => {
                     </div>
                 </div>
             </div>
+            
+
+           
            
         </div>
     );
