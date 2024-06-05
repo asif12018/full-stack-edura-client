@@ -2,6 +2,7 @@
 import { BounceLoader } from 'react-spinners';
 import useAllAvailableCourse from './../../Hooks/useAllAvailableCourse';
 import Hero2 from '../../components/Hero2/Hero2.jsx';
+import { Link } from 'react-router-dom';
 
 
 const AvailableCourse = () => {
@@ -30,14 +31,14 @@ const AvailableCourse = () => {
             <p className="text-gray-700 leading-tight">
                 <span className='font-semibold'>Total Enroll</span>:{course?.totalEnroll}
             </p>
-            <div className="flex items-center">
+            <div className="flex items-center mb-2">
                     <span className="text-gray-800 "><span className='font-semibold'>Instructor: </span>{course?.fullName}</span>
                 </div>
 
-                <button
-					className="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2  transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">
+                <Link to={`/courseDetails/${course?._id}`}
+					className="border  border-green-500 bg-green-500 text-white rounded-md px-4 py-2  transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">
 					<span>Enroll Now</span>
-				</button>
+				</Link>
            
             <div className="flex justify-end items-end">
                 
