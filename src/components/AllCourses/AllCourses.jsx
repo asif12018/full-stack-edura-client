@@ -2,10 +2,12 @@ import { BounceLoader } from "react-spinners";
 import useAllCourse from "../../Hooks/useAllCourse";
 import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from './../../Hooks/useAxiosSecure';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 const AllCourses = () => {
+    const itemsPerPage = 10; //set the number of items per page
+    const [currentPage, setCurrentPage] = useState(1); //Track the current Page
     const axiosSecure = useAxisoSecure()
     //data from all course hook
     const [courses, courseLoading, reloadCourse] = useAllCourse();
@@ -40,6 +42,12 @@ const AllCourses = () => {
         })
     }
 
+    //Calculate pagination indexex
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = courses.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(courses.length / itemsPerPage);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
    
 
 
@@ -118,7 +126,7 @@ const AllCourses = () => {
                         </Table.Head>
                         <Table.Body className="divide-y">
                             {
-                                courses?.map((teacher, index) =>
+                                currentItems?.map((teacher, index) =>
 
                                     <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                         {/* <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -147,6 +155,13 @@ const AllCourses = () => {
                         </Table.Body>
                     </Table>
                 </div>
+                <div className="pagination">
+                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-btn">Previous</button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'pagination-btn active' : 'pagination-btn'}>{i + 1}</button>
+                ))}
+                <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= courses.length} className="pagination-btn">Next</button>
+            </div>
         </div>
     );
 };
