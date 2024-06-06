@@ -21,6 +21,7 @@ const NavbarSection = () => {
             console.log(error)
           });
     }
+    console.log(user?.photoURL)
     return (
         <div className="">
             <Navbar fluid className="py-6 flex-col  !bg-[#14452f]">

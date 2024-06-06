@@ -2,6 +2,7 @@ import { BounceLoader } from "react-spinners";
 import useAllCourse from "../../Hooks/useAllCourse";
 import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from './../../Hooks/useAxiosSecure';
+import { useEffect } from "react";
 
 
 const AllCourses = () => {
@@ -38,6 +39,8 @@ const AllCourses = () => {
             console.log(err);
         })
     }
+
+   
 
 
 
