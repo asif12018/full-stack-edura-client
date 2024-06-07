@@ -4,9 +4,9 @@ import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from "../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
-
-const MyCourses = () => {
+const MyCourses2 = () => {
     const itemsPerpage = 10;
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -34,6 +34,37 @@ const MyCourses = () => {
             }).catch(err => {
                 console.log(err);
             })
+    }
+    //function to delete function
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/deleteCourse/${id}`)
+                    .then(res => {
+                        console.log(res.data)
+                        if (res.data.deletedCount > 0) {
+                              Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                              });
+                        }
+                        teacherAllCourseReLoad();
+                        
+                    }).catch(err => {
+                        console.log(err);
+                    })
+
+            }
+        });
     }
     return (
         <div>
@@ -93,65 +124,52 @@ const MyCourses = () => {
                 </div>
             </div>
 
-            {/**==========         table           ============ */}
-
-            <div className="overflow-x-auto">
-                <Table>
-                    <Table.Head>
-                        <Table.HeadCell>Title</Table.HeadCell>
-                        <Table.HeadCell>Image</Table.HeadCell>
-                        <Table.HeadCell>Email</Table.HeadCell>
-                        <Table.HeadCell>Short Description</Table.HeadCell>
-                        <Table.HeadCell>Category</Table.HeadCell>
-                        <Table.HeadCell>Price</Table.HeadCell>
-                        <Table.HeadCell>Status</Table.HeadCell>
-                        <Table.HeadCell>resubmit</Table.HeadCell>
-                        <Table.HeadCell>edit</Table.HeadCell>
-                        <Table.HeadCell>Course Progress</Table.HeadCell>
-
-                    </Table.Head>
-                    <Table.Body className="divide-y">
-                        {
-                            currentItems?.map((teacher, index) =>
-
-                                <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                                    {/* <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {'Apple MacBook Pro 17"'}
-            </Table.Cell> */}
-                                    <Table.Cell>{teacher?.title}</Table.Cell>
-                                    <Table.Cell><div className="flex flex-wrap gap-2">
-                                        <Avatar img={teacher?.coursePhoto} />
-                                    </div></Table.Cell>
-                                    <Table.Cell>{teacher?.email}</Table.Cell>
-                                    <Table.Cell>{teacher?.description}</Table.Cell>
-                                    <Table.Cell>{teacher?.category}</Table.Cell>
-                                    <Table.Cell>{teacher?.price}</Table.Cell>
-                                    <Table.Cell>{teacher?.isApproved == 'no' ? 'pending' : ''}
-                                        {teacher?.isApproved == 'yes' ? 'approved' : ''}
-                                        {teacher?.isApproved == 'reject' ? 'rejected' : ''}
-                                    </Table.Cell>
-                                    <Table.Cell><Button onClick={() => handleReview(teacher?._id)} disabled={(teacher?.isApproved == 'no' || teacher?.isApproved == 'yes')}>{teacher?.isApproved == 'no' ? 'pending' : ''}{teacher?.isApproved == 'yes' ? 'approved' : ''}{teacher?.isApproved == 'reject' ? 'request a review' : ''}</Button></Table.Cell>
-                                    {/* <Table.Cell><Button onClick={()=>handleReview(teacher?._id)} disabled={(teacher?.isApproved == 'no' || teacher?.isApproved == 'yes')}>Edit</Button></Table.Cell> */}
-                                    <Table.Cell><Link className="btn  bg-blue-400 border-none text-white" to={`/dashboard/update/${teacher?._id}`} >Edit</Link></Table.Cell>
-
-
-
-
-
-                                    <Table.Cell>
-                                        <Button className="" color="failure" disabled={(teacher?.isApproved == 'no' || teacher?.isApproved == 'reject')}><Link to={`/dashboard/showCourseProgress/${teacher?._id}`}>show progress</Link></Button>
-                                    </Table.Cell>
-                                </Table.Row>
-                            )
-                        }
-
-
-
-                    </Table.Body>
-                   
-                </Table>
+            <div>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                    {currentItems.map((course, index) => (
+                        <div key={index}>
+                            <div className="flex flex-col justify-center items-center bg-gray-100 ">
+                                <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">
+                                    <img src={course?.coursePhoto} alt="Mountain" className="w-full h-68 object-cover" />
+                                    <div className="p-6">
+                                        <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">{course?.title}</h2>
+                                        <p className="text-gray-700 leading-tight ">
+                                            <span className='font-semibold'>Details</span>:{course?.description}
+                                        </p>
+                                        <p className="text-gray-700 leading-tight">
+                                            <span className='font-semibold'>Price</span>:{course?.price}$
+                                        </p>
+                                        <p className="text-gray-700 leading-tight">
+                                            <span className='font-semibold'>Total Enroll</span>:{course?.totalEnroll}
+                                        </p>
+                                        <p className="text-gray-700 leading-tight"><span className="font-bold">Status: </span>
+                                            {course?.isApproved == 'no' ? 'pending' : ''}
+                                            {course?.isApproved == 'yes' ? 'Approved' : ''}
+                                            {course?.isApproved == 'reject' ? 'Rejected' : ''}
+                                        </p>
+                                        <div className="flex items-center mb-2">
+                                            <span className="text-gray-800 "><span className='font-semibold'>Instructor: </span>{course?.fullName}</span>
+                                        </div>
+                                        {/* <Link to={`/courseDetails/${course?._id}`}
+                                        className="border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline">
+                                        <span>Enroll Now</span>
+                                    </Link> */}
+                                        <button className="btn w-full btn-success" onClick={() => handleReview(course?._id)} disabled={(course?.isApproved == 'no' || course?.isApproved == 'yes')}>{course?.isApproved == 'no' ? 'pending' : ''}{course?.isApproved == 'yes' ? 'approved' : ''}{course?.isApproved == 'reject' ? 'request a review' : ''}</button>
+                                        <Link className="btn w-full  bg-blue-400 border-none text-white" to={`/dashboard/update/${course?._id}`} >Edit</Link>
+                                        <button className="btn w-full bg-red-500 text-white"
+                                            onClick={() => handleDelete(course?._id)}
+                                        >Delete</button>
+                                        <div className="flex justify-end items-end">
+                                            <span className="text-gray-600 text-right">2 hours ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-            
+
             <div className="pagination">
                 <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-btn">Previous</button>
                 {Array.from({ length: totalPages }, (_, i) => (
@@ -159,9 +177,8 @@ const MyCourses = () => {
                 ))}
                 <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= teacherAllCourse.length} className="pagination-btn">Next</button>
             </div>
-          
         </div>
     );
 };
 
-export default MyCourses;
+export default MyCourses2;

@@ -11,6 +11,8 @@ import useSearchSuggest from "../../Hooks/useSearchSuggest";
 
 
 const TeacherRequest = () => {
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
     const [reject, setReject] = useState([]);
     const [request, setRequest] = useState([]);
     const [approved, setApproved] = useState([]);
@@ -98,6 +100,14 @@ const TeacherRequest = () => {
                 console.log(err)
             })
     }
+    //pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = allTeacher.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalPages = Math.ceil(allTeacher.length / itemsPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
 
 
@@ -181,7 +191,7 @@ const TeacherRequest = () => {
                         </Table.Head>
                         <Table.Body className="divide-y">
                             {
-                                allTeacher?.map((teacher, index) =>
+                                currentItems?.map((teacher, index) =>
 
                                     <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                         {/* <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -235,6 +245,17 @@ const TeacherRequest = () => {
                         </Table.Body>
                     </Table>
                 </div>
+                
+
+                <div className="pagination">
+                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-btn">Previous</button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'pagination-btn active' : 'pagination-btn'}>{i + 1}</button>
+                ))}
+                <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= allTeacher.length} className="pagination-btn">Next</button>
+            </div>
+
+
             </div>
         </div>
     );

@@ -17,6 +17,9 @@ import Profile from './../../components/Profile/Profile';
 import AvailableCourse from "../../Pages/AvailableCourse/AvailableCourse.jsx";
 import CourseDetails from "../../Pages/CourseDetails/CourseDetails.jsx";
 import PrivateRoutes from "./PrivateRoutes.jsx";
+import ShowCourseProgress from "../../components/ShowCourseProgress/ShowCourseProgress.jsx";
+import UpdateCourse from "../../components/UpdateCourse.jsx/UpdateCourse.jsx";
+import MyCourses2 from "../../components/MyCourses2/MyCourses2.jsx";
 
 const router = createBrowserRouter([
     {
@@ -55,7 +58,7 @@ const router = createBrowserRouter([
     },
     {
       path:"dashboard",
-      element:<Dashboard></Dashboard>,
+      element:<PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
       children:[
         {
           path:'myEnroll',
@@ -87,6 +90,10 @@ const router = createBrowserRouter([
           element:<MyCourses></MyCourses>
         },
         {
+          path:'myCourses2',
+          element:<MyCourses2></MyCourses2>
+        },
+        {
           path:'Profile',
           element:<Profile></Profile>
         },
@@ -98,6 +105,14 @@ const router = createBrowserRouter([
           path:'allCourse',
           element:<AllCourses></AllCourses>
         },
+        {
+          path:'showCourseProgress/:id',
+          element:<ShowCourseProgress></ShowCourseProgress>
+        },
+        {
+          path:'update/:id',
+          element:<UpdateCourse></UpdateCourse>
+        }
         
       ]
     }
