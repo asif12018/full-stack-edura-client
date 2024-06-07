@@ -20,6 +20,7 @@ import PrivateRoutes from "./PrivateRoutes.jsx";
 import ShowCourseProgress from "../../components/ShowCourseProgress/ShowCourseProgress.jsx";
 import UpdateCourse from "../../components/UpdateCourse.jsx/UpdateCourse.jsx";
 import MyCourses2 from "../../components/MyCourses2/MyCourses2.jsx";
+import PaymentGate from "../../components/PaymentGate/PaymentGate.jsx";
 
 const router = createBrowserRouter([
     {
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
         {
           path:'update/:id',
           element:<UpdateCourse></UpdateCourse>
+        },
+        {
+          path:'pay/:id',
+          element:<PaymentGate></PaymentGate>
         }
         
       ]

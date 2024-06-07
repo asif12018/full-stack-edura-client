@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useCourseDetails from "../../Hooks/useCourseDetails";
 import { BounceLoader } from "react-spinners";
 import { Button } from "flowbite-react";
@@ -11,7 +11,7 @@ const CourseDetails = () => {
     if (isCourseLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
-    console.log(courseDetails)
+    // console.log(courseDetails)
     return (
         <div>
 
@@ -38,7 +38,7 @@ const CourseDetails = () => {
                             <p className="text-gray-700 mb-4"><span className="font-bold">Description: </span>{courseDetails?.description
                             }</p>
                             <p><span className="font-bold">Total Enrollment:</span>{courseDetails?.totalEnroll}</p>
-                            <Button color="success" className="">Enroll and pay</Button>
+                            <Link  to={`/dashboard/pay/${courseDetails?._id}`} color="success" className="btn btn-success text-white">Enroll and pay</Link>
                         </div>
                         <div className="w-full md:w-4/12 px-4 mb-8">
                             <div className="bg-gray-100 px-4 py-6 rounded">
