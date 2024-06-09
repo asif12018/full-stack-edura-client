@@ -2,13 +2,15 @@ import { Link, useParams } from "react-router-dom";
 import useCourseDetails from "../../Hooks/useCourseDetails";
 import { BounceLoader } from "react-spinners";
 import { Button } from "flowbite-react";
+import useMyEnrollClass from "../../Hooks/useMyEnrollClass";
 
 
 const CourseDetails = () => {
     const id = useParams();
+    const [myEnroll, enrollLoading, enrollRefetch] = useMyEnrollClass();
     // console.log(id);
     const [courseDetails, isCourseLoading, courseReload] = useCourseDetails(id.id);
-    if (isCourseLoading) {
+    if (isCourseLoading || isCourseLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
     // console.log(courseDetails)
@@ -38,7 +40,10 @@ const CourseDetails = () => {
                             <p className="text-gray-700 mb-4"><span className="font-bold">Description: </span>{courseDetails?.description
                             }</p>
                             <p><span className="font-bold">Total Enrollment:</span>{courseDetails?.totalEnroll}</p>
-                            <Link  to={`/dashboard/pay/${courseDetails?._id}`} color="success" className="btn btn-success text-white">Enroll and pay</Link>
+                            
+                            {
+                                myEnroll.some(element => element?.courseId == courseDetails?._id) ? <button className="btn">You already enroll here</button>: <Link   to={`/dashboard/pay/${courseDetails?._id}`} color="success" className="btn btn-success text-white">Enroll and pay</Link>
+                            }
                         </div>
                         <div className="w-full md:w-4/12 px-4 mb-8">
                             <div className="bg-gray-100 px-4 py-6 rounded">

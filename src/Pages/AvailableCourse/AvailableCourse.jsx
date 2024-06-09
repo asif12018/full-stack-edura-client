@@ -4,7 +4,9 @@ import useAllAvailableCourse from './../../Hooks/useAllAvailableCourse';
 import Hero2 from '../../components/Hero2/Hero2.jsx';
 import { Link } from 'react-router-dom';
 import './AvailableCourse.css'
+import useMyEnrollClass from '../../Hooks/useMyEnrollClass.jsx';
 const AvailableCourse = () => {
+    
     const itemsPerPage = 10; // Set the number of items per page
     const [currentPage, setCurrentPage] = useState(1); // Track the current page
     const [availalbeCourse, availableCourseLoading, availableCourseReload] = useAllAvailableCourse();

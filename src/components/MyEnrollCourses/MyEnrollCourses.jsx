@@ -1,18 +1,18 @@
 import { BounceLoader } from "react-spinners";
 import useMyEnrollClass from "../../Hooks/useMyEnrollClass";
-import { Table } from "flowbite-react";
+import { Card, Table } from "flowbite-react";
 
 
 const MyEnrollCourses = () => {
     const [myEnroll, enrollLoading, enrollRefetch] = useMyEnrollClass();
-    if(enrollLoading){
+    if (enrollLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
     console.log(myEnroll);
     return (
         <div>
             <div>
-            <div className=" bg-[#14452f]">
+                <div className=" bg-[#14452f]">
                     <div className="pt-12 bg-[#14452f] sm:pt-20">
                         <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
                             <div className="max-w-4xl mx-auto text-center">
@@ -69,8 +69,27 @@ const MyEnrollCourses = () => {
                 </div>
             </div>
 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {
+                    myEnroll?.map(enroll =>  <Card key={enroll?._id}
+                        className="max-w-sm"
+                        imgAlt="Meaningful alt text for an image that is not purely decorative"
+                        imgSrc={enroll?.
+                            courseImage}
+                      >
+                        <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                          {enroll?.courseTitle}
+                        </h5>
+                        <p className="font-normal text-gray-700 dark:text-gray-400">
+                          <span className="font-bold">Instructor:</span>{enroll?.instructorName}
+                        </p>
+                        <button className="btn">Continue....</button>
+                      </Card>)
+                }
+            </div>
+
             <div>
-            
+
             </div>
         </div>
     );
