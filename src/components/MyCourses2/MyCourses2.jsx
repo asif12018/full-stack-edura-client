@@ -159,6 +159,7 @@ const MyCourses2 = () => {
                                         <button className="btn w-full bg-red-500 text-white"
                                             onClick={() => handleDelete(course?._id)}
                                         >Delete</button>
+                                        <Link to={`/dashboard/courseProgress/${course?._id}`} className="btn w-full bg-[#14452f] text-white">See Details..</Link>
                                         <div className="flex justify-end items-end">
                                             <span className="text-gray-600 text-right">2 hours ago</span>
                                         </div>

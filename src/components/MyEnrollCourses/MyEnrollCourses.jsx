@@ -1,6 +1,7 @@
 import { BounceLoader } from "react-spinners";
 import useMyEnrollClass from "../../Hooks/useMyEnrollClass";
 import { Card, Table } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 
 const MyEnrollCourses = () => {
@@ -83,7 +84,7 @@ const MyEnrollCourses = () => {
                         <p className="font-normal text-gray-700 dark:text-gray-400">
                           <span className="font-bold">Instructor:</span>{enroll?.instructorName}
                         </p>
-                        <button className="btn">Continue....</button>
+                        <Link to={`/dashboard/myenroll-class/${enroll?.courseId}`} className="btn">Continue....</Link>
                       </Card>)
                 }
             </div>

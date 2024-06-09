@@ -21,6 +21,8 @@ import ShowCourseProgress from "../../components/ShowCourseProgress/ShowCoursePr
 import UpdateCourse from "../../components/UpdateCourse.jsx/UpdateCourse.jsx";
 import MyCourses2 from "../../components/MyCourses2/MyCourses2.jsx";
 import PaymentGate from "../../components/PaymentGate/PaymentGate.jsx";
+import MyEnrollCourseDetails from "../../components/MyEnrollCourseDetails/MyEnrollCourseDetails.jsx";
+import CourseProgress from "../../components/CourseProgress/CourseProgress.jsx";
 
 const router = createBrowserRouter([
     {
@@ -117,6 +119,14 @@ const router = createBrowserRouter([
         {
           path:'pay/:id',
           element:<PaymentGate></PaymentGate>
+        },
+        {
+          path:'myenroll-class/:id',
+          element:<MyEnrollCourseDetails></MyEnrollCourseDetails>
+        },
+        {
+          path:'courseProgress/:id',
+          element:<CourseProgress></CourseProgress>
         }
         
       ]
