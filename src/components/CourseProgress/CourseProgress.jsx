@@ -1,15 +1,27 @@
 import { BounceLoader } from "react-spinners";
 import useCourseDetails from "../../Hooks/useCourseDetails";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 
 const CourseProgress = () => {
+    const [isOpen, setIsOpen] = useState(false);
     const id = useParams();
     const  [courseDetails, isCourseLoading, courseReload] = useCourseDetails(id.id);
+
+    //react hook form
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+   const onSubmit = data => {
+    console.log(data);
+    setIsOpen(false);
+};
     if(isCourseLoading){
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
-   console.log(courseDetails)
+//    console.log(courseDetails)
+   //react hook form
+   
     return (
         <div>
             <div>
@@ -72,7 +84,7 @@ const CourseProgress = () => {
 
                                     <div>
 
-
+                                    <h3 className="text-2xl font-bold text-center my-3 text-white">total assignment per day</h3>
                                     <div>
 
      
@@ -133,6 +145,115 @@ const CourseProgress = () => {
 
 
                                     </div>
+                                    <div>
+                                        <button onClick={() => setIsOpen(!isOpen)} className="btn w-full my-3">+Add assignment</button>
+                                    </div>
+                                    
+
+                                    <div>
+                                    <div className="relative flex justify-center">
+     
+
+      {isOpen && (
+        <div
+          className={`fixed inset-0 z-10 overflow-y-auto transition duration-300 ease-out ${
+            isOpen
+              ? 'translate-y-0 opacity-100 sm:scale-100'
+              : 'translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95'
+          }`}
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+
+            <div className="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+              <h3
+                className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
+                id="modal-title"
+              >
+                Create Assignment
+              </h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                To create and add assignment you have to fillup this form
+              </p>
+
+              <form onSubmit={handleSubmit(onSubmit)} className="mt-4" action="#">
+                {/* <label
+                  htmlFor="emails-list"
+                  className="text-sm text-gray-700 dark:text-gray-200"
+                >
+                  Email address
+                </label> */}
+
+                <label className="block mt-3" htmlFor="email1">
+                  <input
+                    type="text"
+                    name="title"
+                    id="email1"
+                    placeholder="assignment title"
+                    {...register('assignmentTitle',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errors.assignmentTitle && <p className="font-bold text-red-600">Title is require</p>}
+                </label>
+
+                <label className="block mt-3" htmlFor="email2">
+                  <input
+                    type="date"
+                    name="deadline"
+                    id="email2"
+                    placeholder="Enter the deadline"
+                    {...register('deadline',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errors.deadline && <p className="text-red-500 font-bold">Deadline is require</p>}
+                </label>
+
+                <label className="block mt-3" htmlFor="email3">
+                  <input
+                    type="type"
+                    name="description"
+                    id="email3"
+                    placeholder="description"
+                    {...register('description',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errors.description && <p className="text-red-500 font-bold">description is require</p>}
+                </label>
+
+               
+
+                <div className="mt-4 sm:flex sm:items-center sm:-mx-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                    className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
+                  >
+                    Cancel
+                  </button>
+
+                  <button 
+                    type="submit"
+                    className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                  >
+                    Send Assignment
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
