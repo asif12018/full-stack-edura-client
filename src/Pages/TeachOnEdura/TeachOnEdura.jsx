@@ -22,7 +22,7 @@ const TeachOnEdura = () => {
 
   
     
-    console.log('user info on teach on endura',teacher)
+    // console.log('user info on teach on endura',teacher)
     const axiosSecure = useAxisoSecure()
     //data from context api
     // const { user } = useContext(AuthContext);
@@ -241,7 +241,33 @@ const TeachOnEdura = () => {
             </div>
         )
     }
+
+    if(userInfo?.role == 'admin'){
+        return(
+            <div>
+                 <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col ">
+                    <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                     
+
+                     <div className="bg-white p-4 rounded-sm">
+                     <h2 className="mb-8 text-3xl text-center">Hey! Your a admin.so you didnt need to apply for teacher🖐️🖐️🖐️</h2>
+                     <Lottie animationData={approve} />
+                     </div>
+    
+    
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+
 };
+
+
+
+
+
 
 
 
