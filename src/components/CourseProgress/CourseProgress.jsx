@@ -3,25 +3,93 @@ import useCourseDetails from "../../Hooks/useCourseDetails";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import moment from "moment";
+import useAxisoSecure from './../../Hooks/useAxiosSecure';
+import useAllTheAssignment from "../../Hooks/useAllTheAssignment";
+import Swal from "sweetalert2";
+import useAllClass from "../../Hooks/useAllClass";
+
 
 
 const CourseProgress = () => {
+    const axiosSecure = useAxisoSecure()
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpens, setIsOpens] = useState(false);
     const id = useParams();
     const  [courseDetails, isCourseLoading, courseReload] = useCourseDetails(id.id);
+    const [assignment, assignmentLoading, assignmentRelaod] = useAllTheAssignment(id.id);
+    const [video, classLoading, classReload] = useAllClass(id.id);
 
-    //react hook form
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
-   const onSubmit = data => {
-    console.log(data);
+
+    //react hook form for assignment
+    const { register:registerForm1, handleSubmit:handleSubmitForm1, watch, reset:formReset1,formState: { errors:errorsForm1 } } = useForm();
+   const onSubmitForm1 = data => {
+    
     setIsOpen(false);
+
+    const assignment = {
+      assignmentTitle:data.title,
+      deadline:data.deadline,
+      description:data.description,
+      createdDate:moment().format('YYYY-MM-DD'),
+      courseId : courseDetails?._id
+    }
+    //send assignment to the database
+    axiosSecure.post('/addAssignment',assignment)
+    .then(res =>{
+      
+      if(res.data.acknowledged){
+        console.log(res.data)
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Assignment created successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        formReset1();
+        assignmentRelaod();
+      }
+    }).catch(err =>{
+      console.log(err)
+    })
+    
 };
-    if(isCourseLoading){
+
+    //react hook form for class video
+    const { register:registerForm2, handleSubmit:handleSubmitForm2, reset:resetForm2,  formState: { errors:errorsForm2 } } = useForm();
+   const onSubmitForm2 = data => {
+    console.log(data);
+    setIsOpens(false);
+    //class details
+    const classData = {
+      classTitle : data.classTitle,
+      description: data.description,
+      url: data.url,
+      courseId:courseDetails._id
+    }
+    //api to send class on database
+    axiosSecure.post('/addClass', classData)
+    .then(res =>{
+      if(res.data.acknowledged){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Class added Successfully",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        resetForm2()
+      }
+    })
+};
+    if(isCourseLoading || assignmentLoading || classLoading){
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
-//    console.log(courseDetails)
-   //react hook form
-   
+    //console.log(courseDetails)
+    //react hook form
+    //console.log(video)
+  
     return (
         <div>
             <div>
@@ -148,6 +216,9 @@ const CourseProgress = () => {
                                     <div>
                                         <button onClick={() => setIsOpen(!isOpen)} className="btn w-full my-3">+Add assignment</button>
                                     </div>
+                                    <div>
+                                        <button onClick={() => setIsOpens(true)} className="btn w-full mb-3">+Add Class</button>
+                                    </div>
                                     
 
                                     <div>
@@ -182,9 +253,10 @@ const CourseProgress = () => {
               </h3>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                 To create and add assignment you have to fillup this form
+                please dont remove default day on title input.
               </p>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="mt-4" action="#">
+              <form onSubmit={handleSubmitForm1(onSubmitForm1)} className="mt-4" action="#">
                 {/* <label
                   htmlFor="emails-list"
                   className="text-sm text-gray-700 dark:text-gray-200"
@@ -194,14 +266,15 @@ const CourseProgress = () => {
 
                 <label className="block mt-3" htmlFor="email1">
                   <input
+                   defaultValue={`Day-${assignment?.length}:`}
                     type="text"
                     name="title"
                     id="email1"
                     placeholder="assignment title"
-                    {...register('assignmentTitle',{required:true})}
+                    {...registerForm1('assignmentTitle',{required:true})}
                     className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
                   />
-                  {errors.assignmentTitle && <p className="font-bold text-red-600">Title is require</p>}
+                  {errorsForm1.assignmentTitle && <p className="font-bold text-red-600">Title is require</p>}
                 </label>
 
                 <label className="block mt-3" htmlFor="email2">
@@ -210,10 +283,10 @@ const CourseProgress = () => {
                     name="deadline"
                     id="email2"
                     placeholder="Enter the deadline"
-                    {...register('deadline',{required:true})}
+                    {...registerForm1('deadline',{required:true})}
                     className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
                   />
-                  {errors.deadline && <p className="text-red-500 font-bold">Deadline is require</p>}
+                  {errorsForm1.deadline && <p className="text-red-500 font-bold">Deadline is require</p>}
                 </label>
 
                 <label className="block mt-3" htmlFor="email3">
@@ -222,10 +295,10 @@ const CourseProgress = () => {
                     name="description"
                     id="email3"
                     placeholder="description"
-                    {...register('description',{required:true})}
+                    {...registerForm1('description',{required:true})}
                     className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
                   />
-                  {errors.description && <p className="text-red-500 font-bold">description is require</p>}
+                  {errorsForm1.description && <p className="text-red-500 font-bold">description is require</p>}
                 </label>
 
                
@@ -244,6 +317,108 @@ const CourseProgress = () => {
                     className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
                   >
                     Send Assignment
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
+
+      {isOpens && (
+        <div
+          className={`fixed inset-0 z-10 overflow-y-auto transition duration-300 ease-out ${
+            isOpens
+              ? 'translate-y-0 opacity-100 sm:scale-100'
+              : 'translate-y-4 opacity-0 sm:translate-y-0 sm:scale-95'
+          }`}
+          aria-labelledby="modal-title"
+          role="dialog"
+          aria-modal="true"
+        >
+          <div className="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <span
+              className="hidden sm:inline-block sm:h-screen sm:align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+
+            <div className="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+              <h3
+                className="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white"
+                id="modal-title"
+              >
+                Add Class Video
+              </h3>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                To Add video you have to fillup this form
+              </p>
+
+              <form onSubmit={handleSubmitForm2(onSubmitForm2)} className="mt-4" action="#">
+                {/* <label
+                  htmlFor="emails-list"
+                  className="text-sm text-gray-700 dark:text-gray-200"
+                >
+                  Email address
+                </label> */}
+
+                <label className="block mt-3" htmlFor="email1">
+                  <input
+                    defaultValue={`Day-${video?.length}:`}
+                    type="text"
+                    name="title"
+                    id="email1"
+                    placeholder="class video title"
+                    {...registerForm2('classTitle',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errorsForm2.classTitle && <p className="font-bold text-red-600">Title is require</p>}
+                </label>
+
+                <label className="block mt-3" htmlFor="email2">
+                  <input
+                    type="text"
+                    name="deadline"
+                    id="email2"
+                    placeholder="description of the class"
+                    {...registerForm2('description',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errorsForm2.description && <p className="text-red-500 font-bold">Description is require</p>}
+                </label>
+
+                <label className="block mt-3" htmlFor="email3">
+                  <input
+                    type="type"
+                    name="url"
+                    id="email3"
+                    placeholder="url"
+                    {...registerForm2('url',{required:true})}
+                    className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
+                  />
+                  {errorsForm2.url && <p className="text-red-500 font-bold">url is require</p>}
+                </label>
+
+               
+
+                <div className="mt-4 sm:flex sm:items-center sm:-mx-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsOpens(false)}
+                    className="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
+                  >
+                    Cancel
+                  </button>
+
+                  <button 
+                    type="submit"
+                    className="w-full px-4 py-2 mt-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                  >
+                    Add Class
                   </button>
                 </div>
               </form>
