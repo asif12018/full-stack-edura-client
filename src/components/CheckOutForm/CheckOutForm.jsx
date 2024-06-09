@@ -2,11 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import useAxisoSecure from "../../Hooks/useAxiosSecure";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import useTeacherSingleCourse from "../../Hooks/useTeacherSingleCourse";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import { AuthContext } from './../../Provider/AuthProvider';
+import Swal from "sweetalert2";
+import moment from 'moment';
 
 const CheckOutForm = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [error, setError] = useState('');
   const [clientSecret, setClientSecret] = useState('');
@@ -73,6 +76,43 @@ const CheckOutForm = () => {
       console.log('paymentIntent:', paymentIntent);
       if(paymentIntent.status == 'succeeded'){
         console.log('payment success')
+        //sweet alert
+        Swal.fire({
+          position: "middle-middle",
+          icon: "success",
+          title: "Your Payment is successful",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        //saving data on database after successfully payment
+        const enrollDetails = {
+          courseId:courseDetails._id,
+          name:user.displayName,
+          email:user.email,
+          paid:courseDetails.price,
+          date: moment().format('MMMM Do, YYYY'),
+          instructorEmail:courseDetails.email
+        }
+        axiosSecure.post('/saveEnroll/',enrollDetails)
+        .then(res =>{
+           console.log(res.data)
+           navigate('/dashboard/myEnroll')
+        }).catch(err =>{
+           console.log(err)
+        })
+
+        //updating enroll number information
+
+        
+        const enroll = parseInt(courseDetails?.totalEnroll) + 1;
+        // console.log(enroll)
+        axiosSecure.patch(`/updateInfo/${courseDetails._id}`,{enroll:enroll})
+        .then(res =>{
+          console.log(res.data)
+        }).catch(err =>{
+          console.log(err)
+        })
+
       }
     }
   }
