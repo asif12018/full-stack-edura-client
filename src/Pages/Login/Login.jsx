@@ -112,7 +112,7 @@ const Login = () => {
                         <Button
                             type="submit"
                             className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1"
-                            gradientMonochrome="success">Create Account</Button>
+                            gradientMonochrome="success">Login</Button>
 
                         <Button onClick={handleGoogleSignIn} className="w-full bg-none" outline gradientDuoTone="greenToBlue">
                             <span className="py-2 flex gap-1 justify-center items-center "><FaGoogle></FaGoogle> Continue with google</span>

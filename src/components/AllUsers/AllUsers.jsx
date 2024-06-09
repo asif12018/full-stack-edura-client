@@ -16,11 +16,34 @@ const AllUsers = () => {
     const [isAdmin, setIsAdmin] = useState([]);
     const [allSuggestion, loadingSuggestion] = useSearchSuggest();
     
+    // useEffect(() => {
+    //     const teacher = allSuggestion.filter(user => user.role === 'teacher');
+    //     const admin = allSuggestion.filter(user => user.role === 'admin');
+    //     setIsAdmin(admin);
+    //     setIsteacher(teacher);
+    // }, [allSuggestion]);
     useEffect(() => {
         const teacher = allSuggestion.filter(user => user.role === 'teacher');
         const admin = allSuggestion.filter(user => user.role === 'admin');
-        setIsAdmin(admin);
-        setIsteacher(teacher);
+
+        setIsteacher((prev) => {
+            const prevTeacherIds = prev.map(user => user.id);
+            const newTeacherIds = teacher.map(user => user.id);
+            if (JSON.stringify(prevTeacherIds) !== JSON.stringify(newTeacherIds)) {
+                return teacher;
+            }
+            return prev;
+        });
+
+        setIsAdmin((prev) => {
+            const prevAdminIds = prev.map(user => user.id);
+            const newAdminIds = admin.map(user => user.id);
+            if (JSON.stringify(prevAdminIds) !== JSON.stringify(newAdminIds)) {
+                return admin;
+            }
+            return prev;
+        });
+
     }, [allSuggestion]);
 
     if (isAllUserLoading || loadingSuggestion) {
