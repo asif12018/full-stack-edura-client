@@ -26,9 +26,9 @@ const CourseProgress = () => {
    const onSubmitForm1 = data => {
     
     setIsOpen(false);
-
+    // console.log(data);
     const assignment = {
-      assignmentTitle:data.title,
+      assignmentTitle:data.assignmentTitle,
       deadline:data.deadline,
       description:data.description,
       createdDate:moment().format('YYYY-MM-DD'),
