@@ -79,7 +79,8 @@ const CourseProgress = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        resetForm2()
+        resetForm2();
+        classReload();
       }
     })
 };
@@ -355,7 +356,7 @@ const CourseProgress = () => {
                 Add Class Video
               </h3>
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                To Add video you have to fillup this form
+                To Add video you have to fillup this form. Remember that to add video first upload your video on youtube and make it private.then copy that url and paste the lin this form ul input
               </p>
 
               <form onSubmit={handleSubmitForm2(onSubmitForm2)} className="mt-4" action="#">
@@ -396,7 +397,7 @@ const CourseProgress = () => {
                     type="type"
                     name="url"
                     id="email3"
-                    placeholder="url"
+                    placeholder="youtube video url"
                     {...registerForm2('url',{required:true})}
                     className="block w-full px-4 py-3 text-sm text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
                   />

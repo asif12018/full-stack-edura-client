@@ -23,6 +23,8 @@ import MyCourses2 from "../../components/MyCourses2/MyCourses2.jsx";
 import PaymentGate from "../../components/PaymentGate/PaymentGate.jsx";
 import MyEnrollCourseDetails from "../../components/MyEnrollCourseDetails/MyEnrollCourseDetails.jsx";
 import CourseProgress from "../../components/CourseProgress/CourseProgress.jsx";
+import MyEnrollCourseBanner from "../../components/MyEnrollCourseBanner/MyEnrollCourseBanner.jsx";
+import MyEnrollClassVideo from "../../components/MyEnrollClassVideo/MyEnrollClassVideo.jsx";
 
 const router = createBrowserRouter([
     {
@@ -122,7 +124,17 @@ const router = createBrowserRouter([
         },
         {
           path:'myenroll-class/:id',
-          element:<MyEnrollCourseDetails></MyEnrollCourseDetails>
+          element:<MyEnrollCourseDetails></MyEnrollCourseDetails>,
+          children:[
+            {
+              index:true,
+              element:<MyEnrollCourseBanner></MyEnrollCourseBanner>
+            },
+            {
+              path:'watch/:id',
+              element:<MyEnrollClassVideo></MyEnrollClassVideo>
+            }
+          ]
         },
         {
           path:'courseProgress/:id',
