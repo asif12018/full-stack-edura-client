@@ -1,12 +1,21 @@
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import useAllClasses from "../../Hooks/useAllClasses";
 import { BounceLoader } from "react-spinners";
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
 import useAllTheAssignment from "../../Hooks/useAllTheAssignment";
-import { Table } from "flowbite-react";
-
+import { Table, TableCell } from "flowbite-react";
+import { useForm } from "react-hook-form";
+import moment from "moment";
+import useAxisoSecure from './../../Hooks/useAxiosSecure';
+import Swal from "sweetalert2";
+import useAllSubmittedAssignment from "../../Hooks/useAllSubmittedAssignment";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const MyEnrollCourseDetails = () => {
+    //data from context api 
+    const {user} = useContext(AuthContext);
+    const RefId = useRef(null)
+    const axiosSecure = useAxisoSecure();
     const location = useLocation();
     const itemsPerPage = 5;
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,11 +24,46 @@ const MyEnrollCourseDetails = () => {
     const { id } = useParams()
     const [allClass, classLoading, classReload] = useAllClasses(location.pathname.split('/')[3]);
     const [assignment, assignmentLoading, assignmentRelaod] = useAllTheAssignment(location.pathname.split('/')[3]);
-    if (classLoading || assignmentLoading) {
+    const [submitted, isSubmitting, reloadSubmitting] = useAllSubmittedAssignment(location.pathname.split('/')[3]);
+    //asignment submit form
+    const { register, handleSubmit, watch,reset, formState: { errors } } = useForm();
+    const onSubmit = data => {
+        // console.log(RefId.current.innerText)
+        const assignmentData ={
+            link:data.link,
+            submittedDate:moment().format('YYYY-MM-DD'),
+            courseId:location.pathname.split('/')[3],
+            assignmentId:RefId.current.innerText,
+            submitterEmail:user.email
+        }
+        //send submitted assignment to the database
+        axiosSecure.post('/submitAssignment',assignmentData)
+        .then(res =>{
+            console.log(res.data);
+            if(res.data.insertedId){
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your assignment has been submitted",
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                reset();
+            }
+            
+        }).catch(err =>{
+            console.log(err);
+        })
+        console.log(assignmentData);
+        
+
+    };
+    if (classLoading || assignmentLoading || isSubmitting) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
 
-    console.log(assignment)
+    // console.log(assignment)
+    console.log(submitted);
 
 
 
@@ -36,6 +80,8 @@ const MyEnrollCourseDetails = () => {
     const currentNewAssignment = assignment.slice(indexOfFirstAssignment, indexOfLastAssignment);
     const totalAssignmentPages = Math.ceil(assignment.length / assignmentPerPages)
     const paginates = (pageNumbers) => setCurrentAssignment(pageNumbers);
+
+    
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-3">
@@ -75,6 +121,7 @@ const MyEnrollCourseDetails = () => {
                                 <Table.HeadCell>Title</Table.HeadCell>
                                 <Table.HeadCell>Description</Table.HeadCell>
                                 <Table.HeadCell>DeadLine</Table.HeadCell>
+                                <Table.HeadCell>assignment id</Table.HeadCell>
                                 <Table.HeadCell>submit</Table.HeadCell>
                             </Table.Head>
 
@@ -88,10 +135,30 @@ const MyEnrollCourseDetails = () => {
                                         </Table.Cell>
                                         <Table.Cell>{items?.description}</Table.Cell>
                                         <Table.Cell>{items?.deadline}</Table.Cell>
-                                        <Table.Cell><btn className='btn btn-sm'>submit</btn></Table.Cell>
+                                        <Table.Cell><span ref={RefId}>{items?._id}</span></Table.Cell>
+                                        <Table.Cell><button className='btn btn-sm' onClick={()=>document.getElementById('my_modal_3').showModal()}>submit</button></Table.Cell>
 
-                                    </Table.Row>)
+                                    </Table.Row>
+                                    
+                                )
                                 }
+
+
+<dialog id="my_modal_3" className="modal " >
+  <div className="modal-box bg-[#111827]">
+    <form method="dialog">
+      {/* if there is a button in form, it will close the modal */}
+      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 className="font-bold text-lg">Assignment Form:</h3>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+      <label htmlFor="">Please Submit Your assignment repository or google drive link</label>
+      <input className="form-control input w-full" name="assignment-link" placeholder="please enter your assignment link here" {...register("link",{required:true})}></input>
+      {errors.link && <p className="text-lg font-bold text-red-500">This field is required</p>}
+      <button onClick={()=>document.getElementById('my_modal_3').close()} type="submit" className="btn w-full">Submit</button>
+    </form>
+  </div>
+</dialog>
 
 
 
