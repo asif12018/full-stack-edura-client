@@ -31,7 +31,7 @@ const Dashboard = () => {
                         <>
                             
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'addCourse'}><span className="flex items-center gap-2"><MdAddChart />Add Courses</span></NavLink>
-                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'Profile'}><span className="flex items-center gap-2"><RiAdminFill />Profile</span></NavLink>
+                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'Profile'}><span className="flex items-center gap-2"><RiAdminFill />Teacher Profile</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'myCourses2'}><span className="flex items-center gap-2"><SiGoogleclassroom />My Courses</span></NavLink>
                         </>
                     )}
