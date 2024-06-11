@@ -7,6 +7,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxisoSecure, { axiosSecure } from './../../Hooks/useAxiosSecure';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 import { parse, format } from 'date-fns';
+import useAllSiteCourse from "../../Hooks/useAllSiteCourse";
+import useAllThePurchaseCourse from "../../Hooks/useAllThePurchaseCourse";
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 const getPath = (x, y, width, height) => {
     return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
@@ -19,22 +21,24 @@ const TriangleBar = (props) => {
 
     return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
 };
-const Profile = () => {
+const AdminProfile = () => {
     const axiosSecure = useAxisoSecure();
     const { user } = useContext(AuthContext);
     const [totalTeachEarn, setTotalTeacherEarn] = useState(0)
     const [userData, isLoading, reloadUser] = useUser();
     const [teacherAllCourse, teacherAllCourseLoading, teacherAllCourseReLoad] = useTeacherAllCourse();
+    const [allSiteCourse, allCourseLoading, allCourseReload] = useAllSiteCourse();
     const [totalEnroll, setTotalEnroll] = useState(0);
+    const  [purchase, puchaseLoading, purchaseReload] = useAllThePurchaseCourse();
     //calculate the earning
     useEffect(() => {
-        const sumPaid = teacherAllCourse.reduce((sum, enrollment) => {
-            const paidAmount = parseFloat(enrollment.price) || 0;
+        const sumPaid = purchase.reduce((sum, enrollment) => {
+            const paidAmount = parseFloat(enrollment.paid) || 0;
             return sum + paidAmount;
         }, 0);
 
         // Calculate total enroll
-        const sumEnroll = teacherAllCourse.reduce((sum, enrollments) => {
+        const sumEnroll = allSiteCourse.reduce((sum, enrollments) => {
             const enrollAmount = parseFloat(enrollments.totalEnroll) || 0;
             return sum + enrollAmount;
         }, 0);
@@ -43,11 +47,7 @@ const Profile = () => {
 
         setTotalEnroll(sumEnroll);
         setTotalTeacherEarn(sumPaid);
-    }, [teacherAllCourse]);
-
-     // get all the course
-    
-  
+    }, [purchase,allSiteCourse]);
 
 
     const { data: order, isLoading: isOrdering } = useQuery({
@@ -57,17 +57,13 @@ const Profile = () => {
             return res.data;
         }
     })
-
-   
-
-
-
-    if (isLoading || teacherAllCourseLoading || isOrdering ) {
+    if (isLoading || teacherAllCourseLoading || isOrdering || allCourseLoading || puchaseLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
- 
+    // console.log(order)
+    console.log(order);
 
-    const formattedData = order.map(item => {
+    const formattedData = purchase.map(item => {
         // Parse the date string into a Date object
         const parsedDate = parse(item.date, "MMMM do, yyyy", new Date());
         // Format the Date object into a format that Recharts can interpret
@@ -103,7 +99,7 @@ const Profile = () => {
                                     </svg>
                                 </span>
                             </div>
-                            <p className="text-gray-700">Teacher</p>
+                            <p className="text-gray-700">{userData?.role}</p>
 
                         </div>
 
@@ -315,7 +311,7 @@ const Profile = () => {
                                             </div>
                                             <div className="flex flex-col">
                                                 <div className="flex items-end">
-                                                    <span className="text-2xl 2xl:text-3xl font-bold">{order?.length}</span>
+                                                    <span className="text-2xl 2xl:text-3xl font-bold">{purchase?.length}</span>
                                                     <div className="flex items-center ml-2 mb-1">
                                                         <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                                                         <span className="font-bold text-sm text-gray-500 ml-0.5">5%</span>
@@ -352,7 +348,7 @@ const Profile = () => {
                     </div>
                     <div className="bg-white rounded-lg shadow-xl p-8">
                         <div className="flex items-center justify-between">
-                            <h4 className="text-xl text-gray-900 font-bold">Teacher Total Course({teacherAllCourse?.length})</h4>
+                            <h4 className="text-xl text-gray-900 font-bold">Site Total Course({allSiteCourse?.length})</h4>
                             <a href="#" title="View All">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 hover:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
@@ -362,7 +358,7 @@ const Profile = () => {
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
 
                             {
-                               teacherAllCourse?.map(item => <a key={item?._id} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
+                                allSiteCourse?.map(item => <a key={item?._id} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
                                     <img src={item?.coursePhoto} className="w-16 rounded-full" />
                                     <p className="text-center font-bold text-sm mt-1">{item?.title}</p>
                                     <p className="text-xs text-gray-500 text-center">{item?.category}</p>
@@ -378,4 +374,4 @@ const Profile = () => {
 }
 
 
-export default Profile;
+export default AdminProfile;

@@ -4,6 +4,9 @@ import useAxisoSecure from "../../Hooks/useAxiosSecure";
 import useMyEnrollClass from "../../Hooks/useMyEnrollClass";
 import { useQuery } from "@tanstack/react-query";
 import { BounceLoader } from "react-spinners";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Tooltip } from "flowbite-react";
+import moment from "moment";
 
 
 const StudentProfile = () => {
@@ -13,34 +16,42 @@ const StudentProfile = () => {
     //data from context api
     const { user } = useContext(AuthContext);
 
-    const {data:submittedAssignment, isLoading, refetch} = useQuery({
-        queryKey:['submittedUserAssignment', user?.email],
-        queryFn: async()=>{
-          const res = await axiosSecure.get(`/getUserAssignment/${user.email}`)
-          return res.data
+    const { data: submittedAssignment, isLoading, refetch } = useQuery({
+        queryKey: ['submittedUserAssignment', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/getUserAssignment/${user.email}`)
+            return res.data
         }
-     })
-     useEffect(() => {
-         const sumPaid = myEnroll.reduce((sum, enrollment) => {
-           const paidAmount = parseFloat(enrollment.paid);
-        
-           return sum + paidAmount;
-         }, 0);
-     
-        
-         setSpend(sumPaid);
-       }, [myEnroll]);
-     if (enrollLoading || isLoading) {
-         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
-     }
-     console.log(myEnroll)
+    })
+    useEffect(() => {
+        const sumPaid = myEnroll.reduce((sum, enrollment) => {
+            const paidAmount = parseFloat(enrollment.paid);
+
+            return sum + paidAmount;
+        }, 0);
+
+
+        setSpend(sumPaid);
+    }, [myEnroll]);
+    if (enrollLoading || isLoading) {
+        return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
+    }
+      // Transform the data for the AreaChart
+      const chartData = myEnroll.map(enrollment => ({
+        date: moment(enrollment.date, "MMMM Do, YYYY").format("YYYY-MM-DD"),
+        paid: parseFloat(enrollment.paid),
+        courseTitle: enrollment.courseTitle
+    }));
+
+    
+    console.log(myEnroll)
     return (
         <div>
             <div className="h-full bg-gray-200 p-8">
                 <div className="bg-white rounded-lg shadow-xl pb-8">
                     <div className="absolute right-12 mt-4 rounded">
 
-                       
+
                     </div>
                     <div className="w-full h-[250px]">
                         <img src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg" className="w-full h-full rounded-tl-lg rounded-tr-lg" />
@@ -56,9 +67,9 @@ const StudentProfile = () => {
                             </span>
                         </div>
                         <p className="text-gray-700">Student</p>
-                      
+
                     </div>
-                    
+
                 </div>
 
                 <div className="my-4 flex flex-col 2xl:flex-row space-y-4 2xl:space-y-0 2xl:space-x-4">
@@ -181,8 +192,34 @@ const StudentProfile = () => {
                     </div>
                     <div className="flex flex-col w-full 2xl:w-2/3">
                         <div className="flex-1 bg-white rounded-lg shadow-xl p-8">
-                            <h4 className="text-xl text-gray-900 font-bold">About</h4>
-                            <p className="mt-2 text-gray-700">View your overall progress from here</p>
+                            <h4 className="text-xl text-gray-900 font-bold">Purchase</h4>
+                            <p className="mt-2 text-gray-700">View your overall purchase  from here</p>
+
+
+                            <ResponsiveContainer width="100%" height={300}>
+                                <AreaChart width={730} height={250} data={chartData}
+                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                                    <defs>
+                                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                                        </linearGradient>
+                                        <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <Tooltip />
+                                    <Area type="monotone" dataKey="paid" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+                                    <Area type="monotone" dataKey="courseTitle" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+                                </AreaChart>
+                            </ResponsiveContainer>
+
+
+                            
                         </div>
                         <div className="flex-1 bg-white rounded-lg shadow-xl mt-4 p-8">
                             <h4 className="text-xl text-gray-900 font-bold">Statistics</h4>
@@ -264,7 +301,7 @@ const StudentProfile = () => {
                         </a>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-8 mt-8">
-                       
+
                         {
                             myEnroll.map(item => <a key={item._id} href="#" className="flex flex-col items-center justify-center text-gray-800 hover:text-blue-600" title="View Profile">
                                 <img src={item?.courseImage} className="w-16 rounded-full" />

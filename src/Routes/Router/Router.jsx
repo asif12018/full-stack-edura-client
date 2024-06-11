@@ -25,6 +25,7 @@ import MyEnrollCourseDetails from "../../components/MyEnrollCourseDetails/MyEnro
 import CourseProgress from "../../components/CourseProgress/CourseProgress.jsx";
 import MyEnrollCourseBanner from "../../components/MyEnrollCourseBanner/MyEnrollCourseBanner.jsx";
 import MyEnrollClassVideo from "../../components/MyEnrollClassVideo/MyEnrollClassVideo.jsx";
+import AdminProfile from "../../components/AdminProfile/AdminProfile.jsx";
 
 const router = createBrowserRouter([
     {
@@ -139,6 +140,10 @@ const router = createBrowserRouter([
         {
           path:'courseProgress/:id',
           element:<CourseProgress></CourseProgress>
+        },
+        {
+          path:'adminProfile',
+          element:<AdminProfile></AdminProfile>
         }
         
       ]

@@ -15,6 +15,7 @@ import useAxisoSecure from './../../Hooks/useAxiosSecure';
 import Swal from "sweetalert2";
 import useAllSubmittedAssignment from "../../Hooks/useAllSubmittedAssignment";
 import { AuthContext } from "../../Provider/AuthProvider";
+import { FaPlus } from "react-icons/fa";
 
 const MyEnrollCourseDetails = () => {
     const [userAssignment, setUserAssignment] = useState([]);
@@ -109,6 +110,9 @@ const MyEnrollCourseDetails = () => {
                         <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= allClass.length} className="pagination-btn">Next</button>
                     </div>
                 </div>
+            </div>
+            <div className="py-3 flex justify-center items-center">
+                <button className="btn w-1/4 rounded-full"> <FaPlus /> Teaching Evaluation Report</button>
             </div>
             <div className="bg-[#111827] py-5">
                 <h3 className="text-2xl font-bold text-white text-center">Course Assignment</h3>

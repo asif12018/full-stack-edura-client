@@ -11,6 +11,7 @@ import { FaUsers } from "react-icons/fa6";
 import { IoBookmarks } from "react-icons/io5";
 import { MdHome } from "react-icons/md";
 import './Dashboard.css'
+import { MdAdminPanelSettings } from "react-icons/md";
 const Dashboard = () => {
     const [userInfo, isLoading, reloadUser] = useUser();
     if (isLoading) {
@@ -43,6 +44,7 @@ const Dashboard = () => {
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'teacherRequest'} ><span className="flex items-center gap-2"><FaChalkboardTeacher />Teacher Request</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'allUsers'}><span className="flex items-center gap-2"><FaUsers />Users</span></NavLink>
                             <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'allCourses'}><span className="flex gap-2 items-center"><IoBookmarks />All Courses</span></NavLink>
+                            <NavLink className={({ isActive })=> isActive ? 'border-b-2 border-white':''} to={'adminProfile'}><span className="flex gap-2 items-center"><MdAdminPanelSettings />Admin Profile</span></NavLink>
                             
 
                         </>
