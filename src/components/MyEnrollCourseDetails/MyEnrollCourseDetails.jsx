@@ -221,7 +221,7 @@ const MyEnrollCourseDetails = () => {
     const { user } = useContext(AuthContext);
     const axiosSecure = useAxisoSecure();
     const location = useLocation();
-    const itemsPerPage = 5;
+    const itemsPerPage = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const assignmentPerPages = 3;
     const [currentAssignment, setCurrentAssignment] = useState(1);
@@ -333,7 +333,8 @@ const MyEnrollCourseDetails = () => {
                                             <Table.Cell>{items?.deadline}</Table.Cell>
                                             <Table.Cell>{items?._id}</Table.Cell>
                                             <Table.Cell>
-                                                <button
+                                              
+                                                {userAssignment.some(item => item.assignmentId === items._id) ? <button className="btn btn-sm">Already submitted</button> :   <button
                                                     className='btn btn-sm'
                                                     onClick={() => {
                                                         setSelectedAssignment({
@@ -343,8 +344,8 @@ const MyEnrollCourseDetails = () => {
                                                         document.getElementById('my_modal_3').showModal();
                                                     }}
                                                 >
-                                                    Submit
-                                                </button>
+                                                    submit
+                                                </button>}
                                             </Table.Cell>
                                         </Table.Row>
                                     ))

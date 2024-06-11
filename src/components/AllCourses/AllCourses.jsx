@@ -8,13 +8,22 @@ import { useEffect, useState } from "react";
 const AllCourses = () => {
     const itemsPerPage = 10; //set the number of items per page
     const [currentPage, setCurrentPage] = useState(1); //Track the current Page
-    const axiosSecure = useAxisoSecure()
+    const axiosSecure = useAxisoSecure();
+    const [courseReq, setCourseReq] = useState(0);
+    const [courseApprove, setCourseApprove] = useState(0);
     //data from all course hook
     const [courses, courseLoading, reloadCourse] = useAllCourse();
+    //filtering some data
+    useEffect(()=>{
+        const filterReq = courses.filter(item => item.isApproved == 'no');
+        const filterApprove = courses.filter(item => item.isApproved == 'yes');
+        setCourseReq(filterReq);
+        setCourseApprove(filterApprove);
+    },[courses])
     if(courseLoading){
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
-    console.log('course',courses)
+    // console.log('course',courses)
     //approving the course request
     const handleApprove = (id) =>{
          axiosSecure.patch(`/approveCourse/${id}`)
@@ -79,7 +88,7 @@ const AllCourses = () => {
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     aria-describedby="item-1" id="starsCount">
-                                                    0
+                                                    {courses?.length}
                                                 </dd>
                                             </div>
                                             <div
@@ -89,17 +98,17 @@ const AllCourses = () => {
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     id="downloadsCount">
-                                                   0
+                                                   {courseReq?.length}
                                                 </dd>
                                             </div>
                                             <div
                                                 className="flex flex-col p-6 text-center border-t border-gray-100 dark:border-gray-700 sm:border-0 sm:border-l">
                                                 <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                                    Total Course
+                                                    Total Course Approve
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     id="sponsorsCount">
-                                                    0
+                                                    {courseApprove?.length}
                                                 </dd>
                                             </div>
                                         </dl>

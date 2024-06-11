@@ -2,14 +2,39 @@ import { BounceLoader } from "react-spinners";
 import useMyEnrollClass from "../../Hooks/useMyEnrollClass";
 import { Card, Table } from "flowbite-react";
 import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import useAxisoSecure, { axiosSecure } from './../../Hooks/useAxiosSecure';
 
 
 const MyEnrollCourses = () => {
+    const axiosSecure = useAxisoSecure();
+    //data from context api
+    const {user} = useContext(AuthContext);
+    const [spend, setSpend] = useState(0);
     const [myEnroll, enrollLoading, enrollRefetch] = useMyEnrollClass();
-    if (enrollLoading) {
+    const {data:submittedAssignment, isLoading, refetch} = useQuery({
+       queryKey:['submittedUserAssignment', user?.email],
+       queryFn: async()=>{
+         const res = await axiosSecure.get(`/getUserAssignment/${user.email}`)
+         return res.data
+       }
+    })
+    useEffect(() => {
+        const sumPaid = myEnroll.reduce((sum, enrollment) => {
+          const paidAmount = parseFloat(enrollment.paid);
+       
+          return sum + paidAmount;
+        }, 0);
+    
+       
+        setSpend(sumPaid);
+      }, [myEnroll]);
+    if (enrollLoading || isLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
-    console.log(myEnroll);
+    // console.log(spend);
     return (
         <div>
             <div>
@@ -38,17 +63,17 @@ const MyEnrollCourses = () => {
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     aria-describedby="item-1" id="starsCount">
-                                                    0
+                                                    {myEnroll?.length}
                                                 </dd>
                                             </div>
                                             <div
                                                 className="flex flex-col p-6 text-center border-t border-b border-gray-100 dark:border-gray-700 sm:border-0 sm:border-l sm:border-r">
                                                 <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                                    Total Asignment
+                                                    Total Spending
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     id="downloadsCount">
-                                                    0
+                                                    {spend}$
                                                 </dd>
                                             </div>
                                             <div
@@ -58,7 +83,7 @@ const MyEnrollCourses = () => {
                                                 </dt>
                                                 <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                     id="sponsorsCount">
-                                                    0
+                                                    {submittedAssignment?.length}
                                                 </dd>
                                             </div>
                                         </dl>

@@ -2,16 +2,26 @@ import { BounceLoader } from "react-spinners";
 import useTeacherAllCourse from "../../Hooks/useTeacherAllCourse";
 import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from "../../Hooks/useAxiosSecure";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const MyCourses2 = () => {
     const itemsPerpage = 10;
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [totalRequest, setTotalRequest] = useState([]);
+    const [totalApprove, setTotalApprove] = useState([]);
     const axiosSecure = useAxisoSecure();
     const [teacherAllCourse, teacherAllCourseLoading, teacherAllCourseReLoad] = useTeacherAllCourse();
+    //filtering the teacher course
+    useEffect(()=>{
+      const filterRequest = teacherAllCourse.filter(item =>item.isApproved == 'no');
+      setTotalRequest(filterRequest);
+      const filterApprove = teacherAllCourse.filter(item => item.isApproved == 'yes');
+      setTotalApprove(filterApprove);
+      
+    },[teacherAllCourse])
+
     if (teacherAllCourseLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
     }
@@ -93,7 +103,7 @@ const MyCourses2 = () => {
                                             </dt>
                                             <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                 aria-describedby="item-1" id="starsCount">
-                                                0
+                                                {teacherAllCourse?.length}
                                             </dd>
                                         </div>
                                         <div
@@ -103,17 +113,17 @@ const MyCourses2 = () => {
                                             </dt>
                                             <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                 id="downloadsCount">
-                                                0
+                                                {totalRequest?.length}
                                             </dd>
                                         </div>
                                         <div
                                             className="flex flex-col p-6 text-center border-t border-gray-100 dark:border-gray-700 sm:border-0 sm:border-l">
                                             <dt className="order-2 mt-2 text-lg font-medium leading-6 text-gray-500 dark:text-gray-400">
-                                                Total Course
+                                                Total Approve course
                                             </dt>
                                             <dd className="order-1 text-5xl font-extrabold leading-none text-indigo-600 dark:text-indigo-100"
                                                 id="sponsorsCount">
-                                                0
+                                                {totalApprove?.length}
                                             </dd>
                                         </div>
                                     </dl>
