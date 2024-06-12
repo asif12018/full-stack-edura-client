@@ -5,6 +5,7 @@ import useAxisoSecure from "../../Hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const MyCourses2 = () => {
     const itemsPerpage = 10;
@@ -14,13 +15,14 @@ const MyCourses2 = () => {
     const axiosSecure = useAxisoSecure();
     const [teacherAllCourse, teacherAllCourseLoading, teacherAllCourseReLoad] = useTeacherAllCourse();
     //filtering the teacher course
-    useEffect(()=>{
-      const filterRequest = teacherAllCourse.filter(item =>item.isApproved == 'no');
-      setTotalRequest(filterRequest);
-      const filterApprove = teacherAllCourse.filter(item => item.isApproved == 'yes');
-      setTotalApprove(filterApprove);
-      
-    },[teacherAllCourse])
+    useEffect(() => {
+        if (teacherAllCourse) {
+            const filterRequest = teacherAllCourse.filter(item => item.isApproved == 'no');
+            setTotalRequest(filterRequest);
+            const filterApprove = teacherAllCourse.filter(item => item.isApproved == 'yes');
+            setTotalApprove(filterApprove);
+        }
+    }, [teacherAllCourse]);
 
     if (teacherAllCourseLoading) {
         return <div className="h-screen flex justify-center items-center"><BounceLoader color="#14452f" /></div>
@@ -78,6 +80,9 @@ const MyCourses2 = () => {
     }
     return (
         <div>
+            <Helmet>
+                <title>My Course</title>
+            </Helmet>
             <div className=" bg-[#14452f]">
                 <div className="pt-12 bg-[#14452f] sm:pt-20">
                     <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">

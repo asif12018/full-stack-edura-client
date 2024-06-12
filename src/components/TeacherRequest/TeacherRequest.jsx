@@ -8,6 +8,7 @@ import { Avatar, Button, Table } from "flowbite-react";
 import useUser from "../../Hooks/useUser";
 import useAllUser from "../../Hooks/useAllUser";
 import useSearchSuggest from "../../Hooks/useSearchSuggest";
+import { Helmet } from "react-helmet-async";
 
 
 const TeacherRequest = () => {
@@ -115,6 +116,9 @@ const TeacherRequest = () => {
 
     return (
         <div className="">
+            <Helmet>
+                <title>Teacher Request</title>
+            </Helmet>
             <div className="">
 
                 <div className=" bg-[#14452f]">

@@ -4,6 +4,7 @@ import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from './../../Hooks/useAxiosSecure';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 
 const AllCourses = () => {
@@ -64,6 +65,9 @@ const AllCourses = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>All Course</title>
+            </Helmet>
             <div className=" bg-[#14452f]">
                     <div className="pt-12 bg-[#14452f] sm:pt-20">
                         <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">

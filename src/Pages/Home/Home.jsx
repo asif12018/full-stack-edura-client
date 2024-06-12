@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import Contact from "../../components/Contact/Contact";
 import Discount from "../../components/Discount/Discount";
 import Faq from "../../components/Faq/Faq";
@@ -10,8 +11,17 @@ import PopularCourse from "../PopularCourse/PopularCourse";
 import Partner from './../../components/Partner/Partner';
 
 const Home = () => {
+// console.log('API Key:', import.meta.env.VITE_APIKEY);
+// console.log('Auth Domain:', import.meta.env.VITE_AUTHDOMAIN);
+// console.log('Project ID:', import.meta.env.VITE_PROJECTID);
+// console.log('Storage Bucket:', import.meta.env.VITE_STORAGEBUCKET);
+// console.log('Messaging Sender ID:', import.meta.env.VITE_MESSAGINGSENDERID);
+// console.log('App ID:', import.meta.env.VITE_APPID);
     return (
         <div>
+            <Helmet>
+                <title>Home</title>
+            </Helmet>
             <Hero></Hero>
             <Discount></Discount>
             <Partner></Partner>

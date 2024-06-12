@@ -7,6 +7,7 @@ import { BounceLoader } from "react-spinners";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { Tooltip } from "flowbite-react";
 import moment from "moment";
+import { Helmet } from "react-helmet-async";
 
 
 const StudentProfile = () => {
@@ -47,6 +48,9 @@ const StudentProfile = () => {
     console.log(myEnroll)
     return (
         <div>
+            <Helmet>
+                <title>Student Profile</title>
+            </Helmet>
             <div className="h-full bg-gray-200 p-8">
                 <div className="bg-white rounded-lg shadow-xl pb-8">
                     <div className="absolute right-12 mt-4 rounded">

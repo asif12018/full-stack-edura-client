@@ -6,6 +6,7 @@ import useAxisoSecure from "../../Hooks/useAxiosSecure";
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import './AllUsers.css'; 
 import useSearchSuggest from "../../Hooks/useSearchSuggest";
+import { Helmet } from "react-helmet-async";
 
 const AllUsers = () => {
     const axiosSecure = useAxisoSecure();
@@ -91,6 +92,9 @@ const AllUsers = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Users</title>
+            </Helmet>
             <div>
                 <div className="bg-[#14452f]">
                     <div className="pt-12 bg-[#14452f] sm:pt-20">

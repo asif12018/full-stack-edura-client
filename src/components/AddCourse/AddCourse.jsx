@@ -5,6 +5,7 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 
 const AddCourse = () => {
@@ -58,6 +59,9 @@ const AddCourse = () => {
     }
     return (
         <div>
+            <Helmet>
+                <title>Add Course</title>
+            </Helmet>
             <div className=" bg-[#14452f]">
                 <div className="pt-12 bg-[#14452f] sm:pt-20">
                     <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">

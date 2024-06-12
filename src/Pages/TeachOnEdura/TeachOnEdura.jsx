@@ -13,6 +13,7 @@ import { BounceLoader } from "react-spinners";
 import clock from '../../assets/Animation - 1716706625927.json'
 import Lottie from "lottie-react";
 import approve from '../../assets/approved.json'
+import { Helmet } from "react-helmet-async";
 
 const TeachOnEdura = () => {
     //custom user hook
@@ -103,6 +104,9 @@ const TeachOnEdura = () => {
     if(userInfo?.role == 'student' && !teacher.isApproved){
         return (
             <div>
+                <Helmet>
+                    <title>Join Edura</title>
+                </Helmet>
                 <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col bg-red-400">
                     <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                         <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
@@ -207,6 +211,9 @@ const TeachOnEdura = () => {
     if(userInfo?.role == 'student' && teacher?.isApproved){
         return (
             <div>
+                <Helmet>
+                    <title>Join Edura</title>
+                </Helmet>
                 <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col ">
                     <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                         <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
@@ -226,6 +233,9 @@ const TeachOnEdura = () => {
     if(userInfo?.role == 'teacher' && teacher?.isApproved == 'yes'){
         return (
             <div>
+                <Helmet>
+                    <title>Join Edura</title>
+                </Helmet>
                 <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col ">
                     <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                         <form onSubmit={handleSubmit(onSubmit)} className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
@@ -245,6 +255,9 @@ const TeachOnEdura = () => {
     if(userInfo?.role == 'admin'){
         return(
             <div>
+                <Helmet>
+                    <title>Join Edura</title>
+                </Helmet>
                  <div className="bg-[url('https://i.postimg.cc/65JH39bw/abstract-green-texture-background-free-vector.jpg')] bg-no-repeat bg-center bg-cover min-h-screen flex flex-col ">
                     <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                      

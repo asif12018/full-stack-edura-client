@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import useAxisoSecure, { axiosSecure } from './../../Hooks/useAxiosSecure';
+import { Helmet } from "react-helmet-async";
 
 
 const MyEnrollCourses = () => {
@@ -37,6 +38,9 @@ const MyEnrollCourses = () => {
     // console.log(spend);
     return (
         <div>
+            <Helmet>
+                <title>My Enroll Course</title>
+            </Helmet>
             <div>
                 <div className=" bg-[#14452f]">
                     <div className="pt-12 bg-[#14452f] sm:pt-20">

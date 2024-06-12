@@ -9,6 +9,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer, 
 import { parse, format } from 'date-fns';
 import useAllSiteCourse from "../../Hooks/useAllSiteCourse";
 import useAllThePurchaseCourse from "../../Hooks/useAllThePurchaseCourse";
+import { Helmet } from "react-helmet-async";
 const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink'];
 const getPath = (x, y, width, height) => {
     return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
@@ -79,6 +80,9 @@ const AdminProfile = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>Admin Profile</title>
+            </Helmet>
             <div>
                 <div className="h-full bg-gray-200 p-8">
                     <div className="bg-white rounded-lg shadow-xl pb-8">

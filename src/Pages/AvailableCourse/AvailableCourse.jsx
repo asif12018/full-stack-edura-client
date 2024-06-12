@@ -5,6 +5,7 @@ import Hero2 from '../../components/Hero2/Hero2.jsx';
 import { Link } from 'react-router-dom';
 import './AvailableCourse.css'
 import useMyEnrollClass from '../../Hooks/useMyEnrollClass.jsx';
+import { Helmet } from 'react-helmet-async';
 const AvailableCourse = () => {
     
     const itemsPerPage = 10; // Set the number of items per page
@@ -26,6 +27,9 @@ const AvailableCourse = () => {
 
     return (
         <div>
+            <Helmet>
+                <title>All Class</title>
+            </Helmet>
             <Hero2></Hero2>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                 {currentItems.map((course, index) => (

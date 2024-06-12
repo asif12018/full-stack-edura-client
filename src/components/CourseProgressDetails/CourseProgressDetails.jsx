@@ -98,7 +98,9 @@ const CourseProgressDetails = () => {
                         </div>
                     </div>
                 </div>
-
+                <div>
+                    <h3 className="text-white font-bold text-4xl text-center my-3">Total feedback: {currentItems?.length}</h3>
+                </div>
                 <div className="flex flex-col max-w-3xl mx-auto overflow-hidden rounded">
                     <div>
 
