@@ -1,8 +1,45 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Project Title
 
-Currently, two official plugins are available:
+Edura: this is a online educational plat form where user can enroll any online course.and complete their learning there.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+
+
+## Features
+
+- Responsive video player.No extra storage require. You can play youtube private video their.
+- Live previews
+- Fullscreen mode
+- Cross platform
+- user can  became teacher.
+- Admin have full power over this site.they can reject any teacher request or any course.
+- user can make payment using their credit or debit card
+- Student can see submit their assignment and teacher can view that assignment
+- separate Profile for admin,teacher and Student
+- user friendly dashboard
+
+
+## Teachnolgy Used:
+- React
+- firebase
+- express
+- node.js
+- swiper slider
+- tanstack query
+- axios
+- react-rating
+- react form hook
+
+
+
+
+
+## Demo
+
+live site: https://edura-4b499.web.app/
+
+admin:admin@1.com
+
+password:admin@1.com
+
