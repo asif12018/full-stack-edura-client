@@ -3,6 +3,7 @@ import useAllCourse from "../../Hooks/useAllCourse";
 import { Avatar, Button, Table } from "flowbite-react";
 import useAxisoSecure from './../../Hooks/useAxiosSecure';
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 
 const AllCourses = () => {
@@ -131,6 +132,7 @@ const AllCourses = () => {
                             <Table.HeadCell>Status</Table.HeadCell>
                             <Table.HeadCell>Approve button</Table.HeadCell>
                             <Table.HeadCell>Reject button</Table.HeadCell>
+                            <Table.HeadCell>See Progress Button</Table.HeadCell>
 
                         </Table.Head>
                         <Table.Body className="divide-y">
@@ -154,6 +156,11 @@ const AllCourses = () => {
 
                                         <Table.Cell>
                                             <Button onClick={()=>handleReject(teacher?._id)} disabled={(teacher?.isApproved == 'reject'|| teacher?.isApproved == 'yes')} color="failure">{teacher?.isApproved=='reject' ? 'rejected':'reject'}</Button>
+                                        </Table.Cell>
+                                        <Table.Cell>
+                                            {
+                                                (teacher?.isApproved == 'reject' || teacher?.isApproved == 'no') ? <button className="btn btn-sm text-white" disabled>See Progress</button> : <Link to={`/dashboard/class/${teacher?._id}`} className="btn btn-sm">See Progress</Link>
+                                            }
                                         </Table.Cell>
                                     </Table.Row>
                                 )

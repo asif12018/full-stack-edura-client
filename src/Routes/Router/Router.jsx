@@ -26,6 +26,7 @@ import CourseProgress from "../../components/CourseProgress/CourseProgress.jsx";
 import MyEnrollCourseBanner from "../../components/MyEnrollCourseBanner/MyEnrollCourseBanner.jsx";
 import MyEnrollClassVideo from "../../components/MyEnrollClassVideo/MyEnrollClassVideo.jsx";
 import AdminProfile from "../../components/AdminProfile/AdminProfile.jsx";
+import CourseProgressDetails from "../../components/CourseProgressDetails/CourseProgressDetails.jsx";
 
 const router = createBrowserRouter([
     {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
           element:<PaymentGate></PaymentGate>
         },
         {
+          path:'class/:id',
+          element:<CourseProgressDetails></CourseProgressDetails>
+        },
+        {
           path:'myenroll-class/:id',
           element:<MyEnrollCourseDetails></MyEnrollCourseDetails>,
           children:[
@@ -144,7 +149,8 @@ const router = createBrowserRouter([
         {
           path:'adminProfile',
           element:<AdminProfile></AdminProfile>
-        }
+        },
+        
         
       ]
     }

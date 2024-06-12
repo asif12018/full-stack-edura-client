@@ -1,6 +1,6 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { FaGoogleScholar } from "react-icons/fa6";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import './NavbarSection.css'
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useContext, useState } from "react";
@@ -88,14 +88,12 @@ const NavbarSection = () => {
                                     </div>
                                     <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownUserAvatarButton">
                                         <li>
-                                            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsDropdownOpens(false)}>Dashboard</div>
+                                            <Link to={'/dashboard/studentProfile'} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsDropdownOpens(false)}>Dashboard</Link>
                                         </li>
                                         <li>
                                             <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsDropdownOpens(false)}>Settings</div>
                                         </li>
-                                        <li>
-                                            <div className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onClick={() => setIsDropdownOpens(false)}>Earnings</div>
-                                        </li>
+                                        
                                     </ul>
                                     <div className="py-2">
                                         <div className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" onClick={() => {
