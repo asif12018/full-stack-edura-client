@@ -9,6 +9,8 @@ import useSearchSuggest from "../../Hooks/useSearchSuggest";
 import { Helmet } from "react-helmet-async";
 
 const AllUsers = () => {
+    const itemsPerPage = 10; // Set the number of items per page
+    const [currentPage, setCurrentPage] = useState(1); // Track the current page
     const axiosSecure = useAxisoSecure();
     // total users
     const [keyword, setKeyword] = useState({});
@@ -89,6 +91,14 @@ const AllUsers = () => {
             </>
         );
     };
+     // Calculate pagination indexes
+     const indexOfLastItem = currentPage * itemsPerPage;
+     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+     const currentItems = allUserData?.slice(indexOfFirstItem, indexOfLastItem);
+ 
+     const totalPages = Math.ceil(allUserData?.length / itemsPerPage);
+ 
+     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     return (
         <div>
@@ -172,7 +182,7 @@ const AllUsers = () => {
                         </Table.Head>
                         <Table.Body className="divide-y">
                             {
-                                allUserData?.map((teacher, index) =>
+                                currentItems?.map((teacher, index) =>
                                     <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                         <Table.Cell>{teacher?.name}</Table.Cell>
                                         <Table.Cell>{teacher?.email}</Table.Cell>
@@ -188,6 +198,13 @@ const AllUsers = () => {
                         </Table.Body>
                     </Table>
                 </div>
+                <div className="pagination my-4">
+                <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-btn">Previous</button>
+                {Array.from({ length: totalPages }, (_, i) => (
+                    <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'pagination-btn active' : 'pagination-btn'}>{i + 1}</button>
+                ))}
+                <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= allUserData?.length} className="pagination-btn">Next</button>
+            </div>
             </div>
         </div>
     );
