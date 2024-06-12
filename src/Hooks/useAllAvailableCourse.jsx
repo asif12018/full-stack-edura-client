@@ -3,6 +3,7 @@ import useAxiosPublic from "./useAxiosPublic";
 
 
 const useAllAvailableCourse = () => {
+    
     const axiosPublic = useAxiosPublic();
     const {data:availalbeCourse, isLoading:availableCourseLoading, refetch:availableCourseReload} = useQuery({
         queryKey:['availableCourse'],

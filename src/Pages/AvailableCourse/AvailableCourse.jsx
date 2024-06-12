@@ -60,7 +60,7 @@ const AvailableCourse = () => {
                     </div>
                 ))}
             </div>
-            <div className="pagination">
+            <div className="pagination my-4">
                 <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-btn">Previous</button>
                 {Array.from({ length: totalPages }, (_, i) => (
                     <button key={i} onClick={() => paginate(i + 1)} className={currentPage === i + 1 ? 'pagination-btn active' : 'pagination-btn'}>{i + 1}</button>

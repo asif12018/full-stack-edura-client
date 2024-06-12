@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -9,6 +9,7 @@ import useAxiosPublic from './../../Hooks/useAxiosPublic';
 import Swal from "sweetalert2";
 
 const Register = () => {
+    const navigate = useNavigate();
     //axios secure hook
     const axiosPublic = useAxiosPublic()
     const {setUser, userCreate, updateUser, userSignIn, googleSignIn} = useContext(AuthContext)
@@ -63,6 +64,7 @@ const Register = () => {
                                 showConfirmButton: false,
                                 timer: 1500
                               });
+                              navigate('/')
                         }
                     }).catch(err=>{
                         console.log(err)
@@ -108,6 +110,7 @@ const Register = () => {
                         showConfirmButton: false,
                         timer: 1500
                       });
+                      navigate('/')
                
             }).catch(err=>{
                 console.log(err)
@@ -162,7 +165,7 @@ const Register = () => {
                             placeholder="Password"
                             {...register('password', { 
                                 required: true, 
-                                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
+                                pattern: !/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z!#$%&? "])[a-zA-Z0-9!#$%&?]{8,20}$/
                             })}
                         />
                         {errors.password?.type === 'required' && <p role="alert" className="text-red-500 font-bold">You must input password</p>}

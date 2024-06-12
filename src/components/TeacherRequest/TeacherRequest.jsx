@@ -204,9 +204,8 @@ const TeacherRequest = () => {
                                         <Table.Cell>{teacher?.skill}</Table.Cell>
                                         <Table.Cell>{teacher?.title}</Table.Cell>
                                         <Table.Cell>{teacher?.category}</Table.Cell>
-                                        <Table.Cell>pending</Table.Cell>
+                                        <Table.Cell>{teacher?.isApproved == 'no' && 'pending'}{teacher?.isApproved == 'yes' && 'approved'}{teacher?.isApproved == 'reject' && 'rejected'}</Table.Cell>
                                         <Table.Cell><Button onClick={() => handleApprove(teacher?._id, teacher.email)} color="success" disabled={(teacher.isApproved == 'yes' || teacher.isApproved == 'reject')}>{teacher?.isApproved == 'yes' && 'Approved'}{teacher?.isApproved == 'reject' && 'not Approved'}{teacher?.isApproved == 'no' && 'Approve'}</Button></Table.Cell>
-
 
                                         <Table.Cell>
                                             <Button onClick={() => handleReject(teacher._id)} disabled={(teacher.isApproved == 'reject' || teacher.isApproved == 'yes')} color="failure">Reject</Button>

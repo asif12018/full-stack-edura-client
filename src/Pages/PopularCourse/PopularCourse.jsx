@@ -7,8 +7,8 @@ const PopularCourse = () => {
     const [popularCourse, setPopularCourse] = useState([]);
     const [availalbeCourse, availableCourseLoading, availableCourseReload] = useAllAvailableCourse();
     useEffect(()=>{
-         const sortedCourse = [...availalbeCourse].sort((a,b)=>b.totalEnroll - a.totalEnroll);
-         const topThreeCourses = sortedCourse.slice(0,3);
+         const sortedCourse = availalbeCourse?.sort((a,b)=>b.totalEnroll - a.totalEnroll);
+         const topThreeCourses = sortedCourse?.slice(0,3);
          setPopularCourse(topThreeCourses);
     },[availalbeCourse])
     if(availableCourseLoading){
@@ -19,7 +19,7 @@ const PopularCourse = () => {
         <div className="py-[50px]">
             <h3 className="text-2xl font-bold text-center pb-5">Check Our Popular Courses</h3>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                {popularCourse.map((course, index) => (
+                {popularCourse?.map((course, index) => (
                     <div key={index}>
                         <div className="flex flex-col justify-center items-center bg-gray-100 max-h-[500px]">
                             <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full">

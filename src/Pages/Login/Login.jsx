@@ -3,13 +3,15 @@
 
 import { Button } from "flowbite-react";
 import { FaGoogle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 const Login = () => {
+    const [incorrect, setIncorrect] = useState(false);
+    const navigate = useNavigate();
     const axiosPublic = useAxiosPublic()
     const {setUser , userSignIn, googleSignIn} = useContext(AuthContext)
     const {
@@ -32,12 +34,20 @@ const Login = () => {
                 showConfirmButton: false,
                 timer: 1500
               });
+            //   navigate('/')
             // ...
+            setTimeout(()=>{
+              navigate('/')
+            },[2000])
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorMessage)
+            setIncorrect(true);
+            setTimeout(()=>{
+             setIncorrect(false);
+            },[3000])
           });
 
       }
@@ -63,6 +73,8 @@ const Login = () => {
                         showConfirmButton: false,
                         timer: 1500
                       });
+                      navigate('/')
+
                
             }).catch(err=>{
                 console.log(err)
@@ -100,9 +112,12 @@ const Login = () => {
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
-                            placeholder="Password" {...register('password',{required:true, pattern:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/})} />
+                            placeholder="Password" {...register('password',{required:true, pattern:!/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[a-zA-Z!#$%&? "])[a-zA-Z0-9!#$%&?]{8,20}$/})} />
                              {errors.password?.type == 'required' && <p role="alert" className="text-red-500 font-bold ">You must input password</p>}
                              {errors.password?.type == 'pattern' && <p role="alert" className="text-red-500 font-bold ">Your password must be 8 character long and must to have a UpperCase letter</p>}
+                             {
+                            incorrect && <p className="text-red-500 font-bold">Incorrect Password or invalid email. Please try again</p>
+                        }
                         {/* <input
                             type="password"
                             className="block border border-grey-light w-full p-3 rounded mb-4"
@@ -117,6 +132,7 @@ const Login = () => {
                         <Button onClick={handleGoogleSignIn} className="w-full bg-none" outline gradientDuoTone="greenToBlue">
                             <span className="py-2 flex gap-1 justify-center items-center "><FaGoogle></FaGoogle> Continue with google</span>
                         </Button>
+                        
 
                         <div className="text-center text-sm text-grey-dark mt-4">
                             By signing up, you agree to the
@@ -127,6 +143,7 @@ const Login = () => {
                                 Privacy Policy
                             </a>
                         </div>
+                     
                     </form>
 
                     <div className="text-white mt-6">

@@ -3,7 +3,7 @@
 const Discount = () => {
     return (
         <div className="my-[50px]">
-            <div className=" py-12 bg-gradient-to-r from-indigo-500 to-violet-500 dark:text-gray-50">
+            <div className=" py-12 bg-gradient-to-r from-green-500 to-lime-400 dark:text-gray-50">
 	<div className="container mx-auto">
 		<div className="flex flex-col lg:flex-row items-center justify-between">
 			<h2 className="text-center text-6xl tracking-tighter font-bold">Up to

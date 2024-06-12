@@ -185,7 +185,7 @@ const TeachOnEdura = () => {
                                 className="w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1"
                                 gradientMonochrome="success"
                             >
-                                Apply
+                                Submit For review
                             </Button>
     
     
@@ -213,7 +213,7 @@ const TeachOnEdura = () => {
                             <h2 className="mb-8 text-3xl text-center">Hey! your almost there.🖐️🖐️🖐️</h2>
                             <Lottie animationData={clock} />
                             <p>{teacher?.isApproved == 'reject'? 'we are sorry to say you are rejected. you  submit a review maybe we can change our decision' : 'we are verify your request. we will let you know shortly'}</p>
-                            <div>{teacher?.isApproved == 'reject' ? <Button onClick={()=>handleRequest(teacher.email)} color="warning">request a review</Button>: <Button color="success">pending</Button>}</div>
+                            <div>{teacher?.isApproved == 'reject' ? <Button onClick={()=>handleRequest(teacher.email)} color="warning">request a for another</Button>: <Button color="success">pending</Button>}</div>
                         </form>
     
     

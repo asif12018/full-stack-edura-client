@@ -41,7 +41,7 @@ const NavbarSection = () => {
 
                     {user?.email ? (
                         <Navbar.Link>
-                            <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/dashboard'}>Dashboard</NavLink>
+                            <NavLink className={({ isActive }) => isActive ? 'text-white font-bold' : ''} to={'/dashboard/myEnroll'}>Dashboard</NavLink>
                         </Navbar.Link>
                     ) : null}
 
