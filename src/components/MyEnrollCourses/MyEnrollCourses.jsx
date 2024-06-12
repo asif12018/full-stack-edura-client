@@ -102,7 +102,7 @@ const MyEnrollCourses = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {
                     myEnroll?.map(enroll =>  <Card key={enroll?._id}
-                        className="max-w-sm"
+                        className="w-full md:max-w-sm"
                         imgAlt="Meaningful alt text for an image that is not purely decorative"
                         imgSrc={enroll?.
                             courseImage}

@@ -27,11 +27,13 @@ import MyEnrollCourseBanner from "../../components/MyEnrollCourseBanner/MyEnroll
 import MyEnrollClassVideo from "../../components/MyEnrollClassVideo/MyEnrollClassVideo.jsx";
 import AdminProfile from "../../components/AdminProfile/AdminProfile.jsx";
 import CourseProgressDetails from "../../components/CourseProgressDetails/CourseProgressDetails.jsx";
+import ErrorPage from "../../Pages/ErrorPage/ErrorPage.jsx";
 
 const router = createBrowserRouter([
     {
       path: "/",
       element: <Main></Main>,
+      errorElement:<ErrorPage></ErrorPage>,
       children:[
         {
             path:"/",

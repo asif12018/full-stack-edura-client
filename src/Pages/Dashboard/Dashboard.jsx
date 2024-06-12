@@ -19,7 +19,7 @@ const Dashboard = () => {
     }
     // console.log(userInfo)
     return (
-        <div className="grid grid-cols-12">
+        <div className="grid grid-cols-1 md:grid-cols-12">
             {/* let bar of the dashboard */}
             <div className="col-span-4 border-r-[0.5px] border-gray-600 min-h-screen bg-[#14452f] text-white">
                 <div className="flex flex-col items-center  gap-5 mt-8 ">
