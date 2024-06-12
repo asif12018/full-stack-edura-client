@@ -18,6 +18,8 @@ Edura: this is a online educational plat form where user can enroll any online c
 - Student can see submit their assignment and teacher can view that assignment
 - separate Profile for admin,teacher and Student
 - user friendly dashboard
+- jwt to secure the api
+- firebase to secure user data
 
 
 ## Teachnolgy Used:
@@ -30,6 +32,7 @@ Edura: this is a online educational plat form where user can enroll any online c
 - axios
 - react-rating
 - react form hook
+- jwt
 
 
 
