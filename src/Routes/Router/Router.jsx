@@ -28,6 +28,8 @@ import MyEnrollClassVideo from "../../components/MyEnrollClassVideo/MyEnrollClas
 import AdminProfile from "../../components/AdminProfile/AdminProfile.jsx";
 import CourseProgressDetails from "../../components/CourseProgressDetails/CourseProgressDetails.jsx";
 import ErrorPage from "../../Pages/ErrorPage/ErrorPage.jsx";
+import ProtectAdminRoutes from "./ProtectAdminRoutes.jsx";
+import ProtectTeacherRoutes from './ProtectTeacherRoutes';
 
 const router = createBrowserRouter([
     {
@@ -83,16 +85,16 @@ const router = createBrowserRouter([
         },
         {
           path:'allUsers',
-          element:<AllUsers></AllUsers>
+          element:<ProtectAdminRoutes><AllUsers></AllUsers></ProtectAdminRoutes>
         },
         {
           path:'allCourses',
-          element:<AllCourses></AllCourses>
+          element:<ProtectAdminRoutes><AllCourses></AllCourses></ProtectAdminRoutes>
         },
         
         {
           path:'addCourse',
-          element:<AddCourse></AddCourse>
+          element:<ProtectTeacherRoutes><AddCourse></AddCourse></ProtectTeacherRoutes>
         },
         {
           path:'myCourses',
@@ -100,20 +102,20 @@ const router = createBrowserRouter([
         },
         {
           path:'myCourses2',
-          element:<MyCourses2></MyCourses2>
+          element:<ProtectTeacherRoutes><MyCourses2></MyCourses2></ProtectTeacherRoutes>
         },
         {
           path:'Profile',
-          element:<Profile></Profile>
+          element:<ProtectTeacherRoutes><Profile></Profile></ProtectTeacherRoutes>
         },
-        {
-          path:'addCourse',
-          element:<AddCourse></AddCourse>
-        },
-        {
-          path:'allCourse',
-          element:<AllCourses></AllCourses>
-        },
+        // {
+        //   path:'addCourse',
+        //   element:<AddCourse></AddCourse>
+        // },
+        // {
+        //   path:'allCourse',
+        //   element:<ProtectAdminRoutes><AllCourses></AllCourses></ProtectAdminRoutes>
+        // },
         {
           path:'showCourseProgress/:id',
           element:<ShowCourseProgress></ShowCourseProgress>
@@ -146,11 +148,11 @@ const router = createBrowserRouter([
         },
         {
           path:'courseProgress/:id',
-          element:<CourseProgress></CourseProgress>
+          element:<ProtectAdminRoutes><CourseProgress></CourseProgress></ProtectAdminRoutes>
         },
         {
           path:'adminProfile',
-          element:<AdminProfile></AdminProfile>
+          element:<ProtectAdminRoutes><AdminProfile></AdminProfile></ProtectAdminRoutes>
         },
         
         
