@@ -34,6 +34,9 @@ Edura: this is a online educational plat form where user can enroll any online c
 - react form hook
 - jwt
 
+  ## How to run this project locally
+  
+
 
 
 
