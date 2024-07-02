@@ -35,6 +35,11 @@ Edura: this is a online educational plat form where user can enroll any online c
 - jwt
 
   ## How to run this project locally
+
+  -first run this command to copy the repo $git clone https://github.com/asif12018/full-stack-edura-client.git
+  - then install the require package by running this command $npm i
+  - then you also have to create firebase project from firebase console and have to provide the secrets
+  - lastly if you want to also run the backend server locally then go to my all the repo and find the server file and install it on your local machine
   
 
 
