@@ -109,3 +109,20 @@ Follow these instructions to run the frontend client on your local machine.
 ```bash
 git clone [https://github.com/asif12018/full-stack-edura-client.git](https://github.com/asif12018/full-stack-edura-client.git)
 cd full-stack-edura-client
+npm install
+
+```
+ENV VARIABLE
+```
+# Firebase Configuration
+REACT_APP_FIREBASE_API_KEY=your_api_key_here
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+
+# Backend API URL (Local vs Production)
+REACT_APP_API_BASE_URL=http://localhost:5000/api
+
+```
