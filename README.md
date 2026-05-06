@@ -68,17 +68,13 @@ Online education platforms often struggle with expensive video hosting overhead,
 
 ## 📸 Screenshots
 
-*(Replace the placeholder URLs with actual raw image links from your GitHub repository issues/assets)*
 
-### Role-Based Dashboards
-| Student Dashboard | Teacher Assignment View | Admin Course Approval |
-| :---: | :---: | :---: |
-| <img src="https://via.placeholder.com/400x250?text=Student+Dashboard" alt="Student Dashboard" /> | <img src="https://via.placeholder.com/400x250?text=Teacher+View" alt="Teacher View" /> | <img src="https://via.placeholder.com/400x250?text=Admin+Approval" alt="Admin Approval" /> |
+*(Replace the placeholder URL below with the actual raw image link from your GitHub repository issues/assets)*
 
-### Core Functionality
-| Responsive Video Player | Secure Payment Gateway |
-| :---: | :---: |
-| <img src="https://via.placeholder.com/500x300?text=Video+Player" alt="Video Player" /> | <img src="https://via.placeholder.com/500x300?text=Payment+Gateway" alt="Payment Gateway" /> |
+### Home Page
+<p align="center">
+  <img src="https://via.placeholder.com/800x450?text=Edura+Home+Page" alt="Edura Home Page" width="100%" />
+</p>
 
 ---
 
